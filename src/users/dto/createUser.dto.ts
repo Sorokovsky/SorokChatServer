@@ -1,6 +1,6 @@
-export interface CreateUserDto{  
-  email: string;
-  surname: string;
-  name: string;
-  nickname?: string;
+export class CreateUserDto{  
+  readonly email: string;
+  readonly surname: string;
+  readonly name: string;
+  readonly nickname?: string;
 }
