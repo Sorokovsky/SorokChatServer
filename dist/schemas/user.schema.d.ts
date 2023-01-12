@@ -21,21 +21,13 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { User } from "src/schemas/user.schema";
-import { CreateUserDto } from "./dto/createUser.dto";
-import { UsersService } from "./users.service";
-export declare class UsersController {
-    private usersService;
-    constructor(usersService: UsersService);
-    getAll(): Promise<(import("mongoose").Document<unknown, any, User> & User & {
-        _id: import("mongoose").Types.ObjectId;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
-    getOneById(id: string): string;
-    filterUsers(): string;
-    create(createUserDto: CreateUserDto): Promise<User>;
-    delete(id: string): string;
+import { HydratedDocument } from 'mongoose';
+export type UserDocument = HydratedDocument<User>;
+export declare class User {
+    email: string;
+    surname: string;
+    name: string;
+    nickname: string;
 }
+export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, User>;

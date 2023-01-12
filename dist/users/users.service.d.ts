@@ -21,14 +21,13 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { User } from "src/schemas/user.schema";
+import { Model } from "mongoose";
+import { User, UserDocument } from "src/schemas/user.schema";
 import { CreateUserDto } from "./dto/createUser.dto";
-import { UsersService } from "./users.service";
-export declare class UsersController {
-    private usersService;
-    constructor(usersService: UsersService);
+export declare class UsersService {
+    private userModel;
+    constructor(userModel: Model<UserDocument>);
     getAll(): Promise<(import("mongoose").Document<unknown, any, User> & User & {
         _id: import("mongoose").Types.ObjectId;
     } & Required<{
