@@ -10,6 +10,8 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const users_module_1 = require("./users/users.module");
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const DBURL = process.env.DBURL;
 let AppModule = class AppModule {
 };
@@ -17,7 +19,7 @@ AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forRootAsync({
-                useFactory: () => ({ uri: "mongodb://127.0.0.1:27017/sorokchat" })
+                useFactory: () => ({ uri: DBURL })
             }),
             users_module_1.UsersModule,
         ]
