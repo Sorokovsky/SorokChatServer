@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { config } from 'dotenv';
+import { AuthorizationModule } from './authorization/authorization.module';
 config();
 const DBURL:string = process.env.DBURL; 
 @Module({
@@ -10,6 +11,7 @@ const DBURL:string = process.env.DBURL;
       useFactory: () => ({uri: DBURL})
     }),
     UsersModule, 
+    AuthorizationModule
   ]
 })
 export class AppModule {}; 

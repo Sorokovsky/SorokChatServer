@@ -24,7 +24,7 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from "mongoose";
 import { User, UserDocument } from "src/schemas/user.schema";
-import { CreateUserDto } from "./dto/createUser.dto";
+import { CreateUserDto } from "../dto/createUser.dto";
 export declare class UsersService {
     private userModel;
     constructor(userModel: Model<UserDocument>);

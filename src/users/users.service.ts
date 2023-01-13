@@ -2,7 +2,7 @@ import { HttpException, Injectable } from "@nestjs/common";
 import { InjectModel, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User, UserDocument } from "src/schemas/user.schema";
-import { CreateUserDto } from "./dto/createUser.dto";
+import { CreateUserDto } from "../dto/createUser.dto";
 @Injectable()
 export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}

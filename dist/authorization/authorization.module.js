@@ -6,27 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.AuthorizationModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const users_module_1 = require("./users/users.module");
-const dotenv_1 = require("dotenv");
-const authorization_module_1 = require("./authorization/authorization.module");
-(0, dotenv_1.config)();
-const DBURL = process.env.DBURL;
-let AppModule = class AppModule {
+const user_schema_1 = require("../schemas/user.schema");
+const authorization_controller_1 = require("./authorization.controller");
+const authorization_service_1 = require("./authorization.service");
+let AuthorizationModule = class AuthorizationModule {
 };
-AppModule = __decorate([
+AuthorizationModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            mongoose_1.MongooseModule.forRootAsync({
-                useFactory: () => ({ uri: DBURL })
-            }),
-            users_module_1.UsersModule,
-            authorization_module_1.AuthorizationModule
-        ]
+        controllers: [authorization_controller_1.AuthorizationController],
+        providers: [authorization_service_1.AuthorizationService],
+        imports: [mongoose_1.MongooseModule.forFeature([{ schema: user_schema_1.UserSchema, name: user_schema_1.User.name }])]
     })
-], AppModule);
-exports.AppModule = AppModule;
-;
-//# sourceMappingURL=app.module.js.map
+], AuthorizationModule);
+exports.AuthorizationModule = AuthorizationModule;
+//# sourceMappingURL=authorization.module.js.map
