@@ -1,24 +1,19 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from 'fs';
-import * as pathNode from 'path';
+import * as mongoose from "mongoose";
+import * as path from 'path';
 @Injectable()
 export class FileService {
-    async upload(file:File, path:string, fileName:string, extensions?:string[]):Promise<string>{
-        const filePath = pathNode.resolve(path, fileName);
-        if(this.checkFileExists(filePath)) throw new Error('File setted');
-        return filePath;
-    }
-    async delele(){
-
-    }
-    async getFile(){
-
-    }
-    async checkFileExists(path:string):Promise<boolean>{
-        return new Promise((resolve, reject) => {
-            fs.access(path, fs.constants.F_OK, err => {
-                resolve(!err);
-            })
-        });
+    async uploadAvatar(avatar:Express.Multer.File, id: mongoose.Types.ObjectId):Promise<string>{
+        try {
+            const avatarPath:string = path.join(`${id}`, `avatar.${avatar.originalname.split('.').pop()}`);
+            const avatarUrl:string = path.resolve(__dirname, '..', 'static', avatarPath);
+            const avatarDirUrl:string = path.resolve(__dirname ,'..', 'static', `${id}`);
+            if(!fs.existsSync(avatarDirUrl)) fs.mkdirSync(avatarDirUrl, {recursive:true});
+            fs.writeFileSync(avatarUrl, avatar.buffer);
+            return avatarPath;
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+        }
     }
 }

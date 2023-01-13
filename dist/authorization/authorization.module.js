@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthorizationModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const file_service_1 = require("../file/file.service");
 const user_schema_1 = require("../schemas/user.schema");
 const authorization_controller_1 = require("./authorization.controller");
 const authorization_service_1 = require("./authorization.service");
@@ -17,7 +18,7 @@ let AuthorizationModule = class AuthorizationModule {
 AuthorizationModule = __decorate([
     (0, common_1.Module)({
         controllers: [authorization_controller_1.AuthorizationController],
-        providers: [authorization_service_1.AuthorizationService],
+        providers: [authorization_service_1.AuthorizationService, file_service_1.FileService],
         imports: [mongoose_1.MongooseModule.forFeature([{ schema: user_schema_1.UserSchema, name: user_schema_1.User.name }])]
     })
 ], AuthorizationModule);

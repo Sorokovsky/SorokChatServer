@@ -6,15 +6,21 @@ import { LogginUserDto } from "src/dto/logginUser.dto";
 import { User, UserDocument } from "src/schemas/user.schema";
 import { hash, compare } from 'bcrypt';
 import { config } from 'dotenv';
+import { FileService } from "src/file/file.service";
 config();
 const salt:number = Number(process.env.SALT) || 6;
 @Injectable()
 export class AuthorizationService{
-    constructor(@InjectModel(User.name) private userModel: Model<UserDocument>){};
-    async registration(createUserDto:CreateUserDto):Promise<User>{
+    constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, private fileService:FileService){};
+    async registration(createUserDto:CreateUserDto, avatar:Express.Multer.File):Promise<User>{
         try {
             const hashedPassword:string = await hash(createUserDto.password, salt);
-            const user = await this.userModel.create({...createUserDto, password: hashedPassword});
+            let user = await this.userModel.create({...createUserDto, password: hashedPassword});
+            if(avatar){
+                const avatarPath:string = await this.fileService.uploadAvatar(avatar, user._id);
+                user.avatar = avatarPath;
+                await user.save();
+            }
             return user;
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

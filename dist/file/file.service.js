@@ -9,24 +9,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileService = void 0;
 const common_1 = require("@nestjs/common");
 const fs = require("fs");
-const pathNode = require("path");
+const path = require("path");
 let FileService = class FileService {
-    async upload(file, path, fileName, extensions) {
-        const filePath = pathNode.resolve(path, fileName);
-        if (this.checkFileExists(filePath))
-            throw new Error('File setted');
-        return filePath;
-    }
-    async delele() {
-    }
-    async getFile() {
-    }
-    async checkFileExists(path) {
-        return new Promise((resolve, reject) => {
-            fs.access(path, fs.constants.F_OK, err => {
-                resolve(!err);
-            });
-        });
+    async uploadAvatar(avatar, id) {
+        try {
+            const avatarPath = path.join(`${id}`, `avatar.${avatar.originalname.split('.').pop()}`);
+            const avatarUrl = path.resolve(__dirname, '..', 'static', avatarPath);
+            const avatarDirUrl = path.resolve(__dirname, '..', 'static', `${id}`);
+            if (!fs.existsSync(avatarDirUrl))
+                fs.mkdirSync(avatarDirUrl, { recursive: true });
+            fs.writeFileSync(avatarUrl, avatar.buffer);
+            return avatarPath;
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
+        }
     }
 };
 FileService = __decorate([

@@ -1,6 +1,5 @@
+/// <reference types="multer" />
+import * as mongoose from "mongoose";
 export declare class FileService {
-    upload(file: File, path: string, fileName: string, extensions?: string[]): Promise<string>;
-    delele(): Promise<void>;
-    getFile(): Promise<void>;
-    checkFileExists(path: string): Promise<boolean>;
+    uploadAvatar(avatar: Express.Multer.File, id: mongoose.Types.ObjectId): Promise<string>;
 }

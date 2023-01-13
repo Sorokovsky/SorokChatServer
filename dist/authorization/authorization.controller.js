@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthorizationController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
 const createUser_dto_1 = require("../dto/createUser.dto");
 const logginUser_dto_1 = require("../dto/logginUser.dto");
 const authorization_service_1 = require("./authorization.service");
@@ -22,8 +23,8 @@ let AuthorizationController = class AuthorizationController {
         this.authorizationService = authorizationService;
     }
     ;
-    registration(createUserDto) {
-        return this.authorizationService.registration(createUserDto);
+    registration(createUserDto, avatar) {
+        return this.authorizationService.registration(createUserDto, avatar);
     }
     async loggin(logginUserDto) {
         return this.authorizationService.loggin(logginUserDto);
@@ -31,9 +32,11 @@ let AuthorizationController = class AuthorizationController {
 };
 __decorate([
     (0, common_1.Post)('/register'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('avatar')),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createUser_dto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [createUser_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthorizationController.prototype, "registration", null);
 __decorate([

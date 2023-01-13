@@ -19,17 +19,24 @@ const mongoose_2 = require("mongoose");
 const user_schema_1 = require("../schemas/user.schema");
 const bcrypt_1 = require("bcrypt");
 const dotenv_1 = require("dotenv");
+const file_service_1 = require("../file/file.service");
 (0, dotenv_1.config)();
 const salt = Number(process.env.SALT) || 6;
 let AuthorizationService = class AuthorizationService {
-    constructor(userModel) {
+    constructor(userModel, fileService) {
         this.userModel = userModel;
+        this.fileService = fileService;
     }
     ;
-    async registration(createUserDto) {
+    async registration(createUserDto, avatar) {
         try {
             const hashedPassword = await (0, bcrypt_1.hash)(createUserDto.password, salt);
-            const user = await this.userModel.create(Object.assign(Object.assign({}, createUserDto), { password: hashedPassword }));
+            let user = await this.userModel.create(Object.assign(Object.assign({}, createUserDto), { password: hashedPassword }));
+            if (avatar) {
+                const avatarPath = await this.fileService.uploadAvatar(avatar, user._id);
+                user.avatar = avatarPath;
+                await user.save();
+            }
             return user;
         }
         catch (error) {
@@ -53,7 +60,7 @@ let AuthorizationService = class AuthorizationService {
 AuthorizationService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model, file_service_1.FileService])
 ], AuthorizationService);
 exports.AuthorizationService = AuthorizationService;
 //# sourceMappingURL=authorization.service.js.map

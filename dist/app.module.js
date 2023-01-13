@@ -13,6 +13,8 @@ const users_module_1 = require("./users/users.module");
 const dotenv_1 = require("dotenv");
 const authorization_module_1 = require("./authorization/authorization.module");
 const file_module_1 = require("./file/file.module");
+const serve_static_1 = require("@nestjs/serve-static");
+const path = require("path");
 (0, dotenv_1.config)();
 const DBURL = process.env.DBURL;
 let AppModule = class AppModule {
@@ -25,7 +27,8 @@ AppModule = __decorate([
             }),
             users_module_1.UsersModule,
             authorization_module_1.AuthorizationModule,
-            file_module_1.FileModule
+            file_module_1.FileModule,
+            serve_static_1.ServeStaticModule.forRoot({ rootPath: path.join(__dirname, 'static') })
         ]
     })
 ], AppModule);
