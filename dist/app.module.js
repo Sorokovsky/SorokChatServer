@@ -12,6 +12,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const users_module_1 = require("./users/users.module");
 const dotenv_1 = require("dotenv");
 const authorization_module_1 = require("./authorization/authorization.module");
+const file_module_1 = require("./file/file.module");
 (0, dotenv_1.config)();
 const DBURL = process.env.DBURL;
 let AppModule = class AppModule {
@@ -23,7 +24,8 @@ AppModule = __decorate([
                 useFactory: () => ({ uri: DBURL })
             }),
             users_module_1.UsersModule,
-            authorization_module_1.AuthorizationModule
+            authorization_module_1.AuthorizationModule,
+            file_module_1.FileModule
         ]
     })
 ], AppModule);
