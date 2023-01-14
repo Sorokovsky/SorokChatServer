@@ -11,7 +11,7 @@ export class FileService {
             const avatarDirUrl:string = path.resolve(__dirname ,'..', 'static', `${id}`);
             if(!fs.existsSync(avatarDirUrl)) fs.mkdirSync(avatarDirUrl, {recursive:true});
             const prevAvatar = await this.checkAvatar(avatarDirUrl);
-            if(prevAvatar) path.join(avatarDirUrl, prevAvatar)
+            if(prevAvatar) fs.rmSync(path.join(avatarDirUrl, prevAvatar));
             fs.writeFileSync(avatarUrl, avatar.buffer);
             return avatarPath;
         } catch (error) {

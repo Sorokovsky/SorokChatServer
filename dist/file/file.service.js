@@ -20,7 +20,7 @@ let FileService = class FileService {
                 fs.mkdirSync(avatarDirUrl, { recursive: true });
             const prevAvatar = await this.checkAvatar(avatarDirUrl);
             if (prevAvatar)
-                path.join(avatarDirUrl, prevAvatar);
+                fs.rmSync(path.join(avatarDirUrl, prevAvatar));
             fs.writeFileSync(avatarUrl, avatar.buffer);
             return avatarPath;
         }
