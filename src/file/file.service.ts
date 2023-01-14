@@ -28,4 +28,15 @@ export class FileService {
         }
         return null;
     }
+    async deleteAvatar(id:mongoose.Types.ObjectId):Promise<void>{
+        try {
+            const dirPath:string = path.resolve(__dirname, '..', 'static', `${id}`);
+            const avatar:string = await this.checkAvatar(dirPath);
+            if (!avatar) throw new HttpException('Avatar not founded', HttpStatus.BAD_REQUEST);
+            const avatarPath:string = path.join(dirPath, avatar);
+            fs.rmSync(avatarPath);      
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

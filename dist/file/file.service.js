@@ -38,6 +38,19 @@ let FileService = class FileService {
         }
         return null;
     }
+    async deleteAvatar(id) {
+        try {
+            const dirPath = path.resolve(__dirname, '..', 'static', `${id}`);
+            const avatar = await this.checkAvatar(dirPath);
+            if (!avatar)
+                throw new common_1.HttpException('Avatar not founded', common_1.HttpStatus.BAD_REQUEST);
+            const avatarPath = path.join(dirPath, avatar);
+            fs.rmSync(avatarPath);
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 };
 FileService = __decorate([
     (0, common_1.Injectable)()
