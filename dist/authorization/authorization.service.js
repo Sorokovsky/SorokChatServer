@@ -20,6 +20,7 @@ const user_schema_1 = require("../schemas/user.schema");
 const bcrypt_1 = require("bcrypt");
 const dotenv_1 = require("dotenv");
 const file_service_1 = require("../file/file.service");
+const jwt = require("jsonwebtoken");
 (0, dotenv_1.config)();
 const salt = Number(process.env.SALT) || 6;
 let AuthorizationService = class AuthorizationService {
@@ -37,7 +38,7 @@ let AuthorizationService = class AuthorizationService {
                 user.avatar = avatarPath;
                 await user.save();
             }
-            return user;
+            return jwt.sign(user._id, process.env.SECRET_KEY, { expiresIn: 60 * 60 * 24 });
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
@@ -49,7 +50,7 @@ let AuthorizationService = class AuthorizationService {
             if (!candidate)
                 throw new Error('User not founded');
             if (await (0, bcrypt_1.compare)(logginUserDto.password, candidate.password))
-                return candidate;
+                jwt.sign(candidate._id, process.env.SECRET_KEY, { expiresIn: 60 * 60 * 24 });
             throw new Error('Do not correct the password');
         }
         catch (error) {

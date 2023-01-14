@@ -7,12 +7,13 @@ import { User, UserDocument } from "src/schemas/user.schema";
 import { hash, compare } from 'bcrypt';
 import { config } from 'dotenv';
 import { FileService } from "src/file/file.service";
+import * as jwt from 'jsonwebtoken';
 config();
 const salt:number = Number(process.env.SALT) || 6;
 @Injectable()
 export class AuthorizationService{
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, private fileService:FileService){};
-    async registration(createUserDto:CreateUserDto, avatar:Express.Multer.File):Promise<User>{
+    async registration(createUserDto:CreateUserDto, avatar:Express.Multer.File):Promise<string>{
         try {
             const hashedPassword:string = await hash(createUserDto.password, salt);
             let user = await this.userModel.create({...createUserDto, password: hashedPassword});
@@ -21,16 +22,16 @@ export class AuthorizationService{
                 user.avatar = avatarPath;
                 await user.save();
             }
-            return user;
+            return jwt.sign(user._id, process.env.SECRET_KEY, {expiresIn: 60*60*24});
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }
-    async loggin(logginUserDto:LogginUserDto):Promise<User>{
+    async loggin(logginUserDto:LogginUserDto):Promise<string>{
         try {
             const candidate = await this.userModel.findOne({email:logginUserDto.email});
             if (!candidate) throw new Error('User not founded');
-            if (await compare(logginUserDto.password, candidate.password)) return candidate;
+            if (await compare(logginUserDto.password, candidate.password)) jwt.sign(candidate._id, process.env.SECRET_KEY, {expiresIn: 60*60*24});
             throw new Error('Do not correct the password');
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
