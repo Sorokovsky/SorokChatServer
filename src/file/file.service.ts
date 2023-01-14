@@ -18,7 +18,7 @@ export class FileService {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }
-    async checkAvatar(dir):Promise<string>{
+    async checkAvatar(dir:string):Promise<string>{
         const items = fs.readdirSync(dir);
         for (let i = 0; i < items.length; i++) {
             const el = items[i];
