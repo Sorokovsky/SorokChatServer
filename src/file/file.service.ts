@@ -10,10 +10,22 @@ export class FileService {
             const avatarUrl:string = path.resolve(__dirname, '..', 'static', avatarPath);
             const avatarDirUrl:string = path.resolve(__dirname ,'..', 'static', `${id}`);
             if(!fs.existsSync(avatarDirUrl)) fs.mkdirSync(avatarDirUrl, {recursive:true});
+            const prevAvatar = await this.checkAvatar(avatarDirUrl);
+            if(prevAvatar) path.join(avatarDirUrl, prevAvatar)
             fs.writeFileSync(avatarUrl, avatar.buffer);
             return avatarPath;
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
+    }
+    async checkAvatar(dir):Promise<string>{
+        const items = fs.readdirSync(dir);
+        for (let i = 0; i < items.length; i++) {
+            const el = items[i];
+            if (el.startsWith('avatar')) {
+                return el;
+            }
+        }
+        return null;
     }
 }

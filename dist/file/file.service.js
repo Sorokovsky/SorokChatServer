@@ -18,12 +18,25 @@ let FileService = class FileService {
             const avatarDirUrl = path.resolve(__dirname, '..', 'static', `${id}`);
             if (!fs.existsSync(avatarDirUrl))
                 fs.mkdirSync(avatarDirUrl, { recursive: true });
+            const prevAvatar = await this.checkAvatar(avatarDirUrl);
+            if (prevAvatar)
+                path.join(avatarDirUrl, prevAvatar);
             fs.writeFileSync(avatarUrl, avatar.buffer);
             return avatarPath;
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
         }
+    }
+    async checkAvatar(dir) {
+        const items = fs.readdirSync(dir);
+        for (let i = 0; i < items.length; i++) {
+            const el = items[i];
+            if (el.startsWith('avatar')) {
+                return el;
+            }
+        }
+        return null;
     }
 };
 FileService = __decorate([
