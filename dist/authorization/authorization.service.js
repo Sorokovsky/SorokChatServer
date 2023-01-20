@@ -38,7 +38,7 @@ let AuthorizationService = class AuthorizationService {
                 user.avatar = avatarPath;
                 await user.save();
             }
-            return jwt.sign(user._id, process.env.SECRET_KEY, { expiresIn: 60 * 60 * 24 });
+            return jwt.sign(Object.assign({}, user), process.env.SECRET_KEY, { expiresIn: 6000 * 60 * 24 });
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
@@ -49,8 +49,9 @@ let AuthorizationService = class AuthorizationService {
             const candidate = await this.userModel.findOne({ email: logginUserDto.email });
             if (!candidate)
                 throw new Error('User not founded');
-            if (await (0, bcrypt_1.compare)(logginUserDto.password, candidate.password))
-                jwt.sign(candidate._id, process.env.SECRET_KEY, { expiresIn: 60 * 60 * 24 });
+            if (await (0, bcrypt_1.compare)(logginUserDto.password, candidate.password)) {
+                return jwt.sign(Object.assign({}, candidate), process.env.SECRET_KEY, { expiresIn: "20d" });
+            }
             throw new Error('Do not correct the password');
         }
         catch (error) {
