@@ -26,7 +26,7 @@ let UsersService = class UsersService {
     }
     async getOneById(id) {
         try {
-            const user = await this.userModel.findById(id);
+            const user = await this.userModel.findById(id).populate(['contacts', 'channels']);
             return user;
         }
         catch (error) {
@@ -39,15 +39,20 @@ let UsersService = class UsersService {
     async create(createUserDto) {
         try {
             const user = await this.userModel.create(createUserDto);
-            console.log(user);
             return user;
         }
         catch (error) {
             throw new common_1.HttpException(error.message, 500);
         }
     }
-    delete(id) {
-        return `Deleted ${id}`;
+    async delete(id) {
+        try {
+            const deletedUser = await this.userModel.findByIdAndDelete(id);
+            return deletedUser;
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
+        }
     }
 };
 UsersService = __decorate([

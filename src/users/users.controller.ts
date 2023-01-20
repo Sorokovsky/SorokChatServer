@@ -22,7 +22,7 @@ export class UsersController{
         return this.usersService.create(createUserDto);
     }
     @Delete("/:id")
-    delete(@Param('id') id:string):string{
+    delete(@Param('id') id:string):Promise<User>{
         return this.usersService.delete(id);
     }
 }

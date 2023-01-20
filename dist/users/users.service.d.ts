@@ -36,5 +36,5 @@ export declare class UsersService {
     getOneById(id: string): Promise<User>;
     filterUsers(): string;
     create(createUserDto: CreateUserDto): Promise<User>;
-    delete(id: string): string;
+    delete(id: string): Promise<User>;
 }

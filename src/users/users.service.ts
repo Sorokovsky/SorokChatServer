@@ -11,7 +11,7 @@ export class UsersService {
     }
    async getOneById( id:string):Promise<User>{
         try {
-            const user = await this.userModel.findById(id);
+            const user = await this.userModel.findById(id).populate(['contacts', 'channels']);
             return user;
         } catch (error) {
             throw new HttpException("User not founded", HttpStatus.BAD_REQUEST);
@@ -22,15 +22,18 @@ export class UsersService {
     }
     async create(createUserDto:CreateUserDto):Promise<User>{
         try {
-            const user = await this.userModel.create(createUserDto);
-            console.log(user);
-            
+            const user = await this.userModel.create(createUserDto); 
             return user;
         } catch (error) {
             throw new HttpException(error.message, 500);
         }
     }
-    delete(id:string):string{
-        return `Deleted ${id}`;
+    async delete(id:string):Promise<User>{
+        try {
+            const deletedUser = await this.userModel.findByIdAndDelete(id);
+            return deletedUser;
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+        }
     }
 }
