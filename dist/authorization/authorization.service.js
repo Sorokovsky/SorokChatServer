@@ -38,7 +38,7 @@ let AuthorizationService = class AuthorizationService {
                 user.avatar = avatarPath;
                 await user.save();
             }
-            return jwt.sign(Object.assign({}, user), process.env.SECRET_KEY, { expiresIn: 6000 * 60 * 24 });
+            return jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "20d" });
         }
         catch (error) {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ let AuthorizationService = class AuthorizationService {
             if (!candidate)
                 throw new Error('User not founded');
             if (await (0, bcrypt_1.compare)(logginUserDto.password, candidate.password)) {
-                return jwt.sign(Object.assign({}, candidate), process.env.SECRET_KEY, { expiresIn: "20d" });
+                return jwt.sign({ id: candidate._id }, process.env.SECRET_KEY, { expiresIn: "20d" });
             }
             throw new Error('Do not correct the password');
         }

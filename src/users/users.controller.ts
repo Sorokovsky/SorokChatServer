@@ -10,7 +10,7 @@ export class UsersController{
         return this.usersService.getAll();
     }
     @Get('/:id')
-    getOneById(@Param('id') id:string):string{
+    getOneById(@Param('id') id:string):Promise<User>{
         return this.usersService.getOneById(id);
     }
     @Post('/filter')

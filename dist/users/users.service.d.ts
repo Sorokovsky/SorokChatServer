@@ -33,7 +33,7 @@ export declare class UsersService {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
-    getOneById(id: string): string;
+    getOneById(id: string): Promise<User>;
     filterUsers(): string;
     create(createUserDto: CreateUserDto): Promise<User>;
     delete(id: string): string;

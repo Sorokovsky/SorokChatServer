@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User, UserDocument } from "src/schemas/user.schema";
@@ -9,8 +9,13 @@ export class UsersService {
     async getAll(){
         return await this.userModel.find();
     }
-    getOneById( id:string):string{
-        return id;
+   async getOneById( id:string):Promise<User>{
+        try {
+            const user = await this.userModel.findById(id);
+            return user;
+        } catch (error) {
+            throw new HttpException("User not founded", HttpStatus.BAD_REQUEST);
+        }
     }
     filterUsers():string{
         return `filter`;

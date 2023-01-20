@@ -24,8 +24,14 @@ let UsersService = class UsersService {
     async getAll() {
         return await this.userModel.find();
     }
-    getOneById(id) {
-        return id;
+    async getOneById(id) {
+        try {
+            const user = await this.userModel.findById(id);
+            return user;
+        }
+        catch (error) {
+            throw new common_1.HttpException("User not founded", common_1.HttpStatus.BAD_REQUEST);
+        }
     }
     filterUsers() {
         return `filter`;

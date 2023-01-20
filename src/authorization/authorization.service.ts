@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { CreateUserDto } from "src/dto/createUser.dto";
 import { LogginUserDto } from "src/dto/logginUser.dto";
 import { User, UserDocument } from "src/schemas/user.schema";
@@ -22,7 +22,7 @@ export class AuthorizationService{
                 user.avatar = avatarPath;
                 await user.save();
             }
-            return jwt.sign({...user}, process.env.SECRET_KEY, {expiresIn: 6000 * 60 * 24});
+            return jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn: "20d"});
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
@@ -32,7 +32,7 @@ export class AuthorizationService{
             const candidate = await this.userModel.findOne({email:logginUserDto.email});
             if (!candidate) throw new Error('User not founded');
             if (await compare(logginUserDto.password, candidate.password)) {
-                return jwt.sign({...candidate}, process.env.SECRET_KEY, {expiresIn: "20d"});
+                return jwt.sign({id: candidate._id}, process.env.SECRET_KEY, {expiresIn: "20d"});
             }
             throw new Error('Do not correct the password');
         } catch (error) {
