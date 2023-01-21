@@ -25,7 +25,7 @@ export class UsersService {
             const user = await this.userModel.create(createUserDto); 
             return user;
         } catch (error) {
-            throw new HttpException(error.message, 500);
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }
     async delete(id:string):Promise<User>{
