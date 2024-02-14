@@ -59,5 +59,4 @@ D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Humanizer.dll
 D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
 D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Mono.TextTemplating.dll
-D:\progects\c#\SorokChatServer\obj\Debug\net7.0\SorokChatServer.sourcelink.json
-D:\progects\c#\SorokChatServer\obj\Debug\net7.0\SorokCha.563868C0.Up2Date
+D:\progects\c#\SorokChatServer\obj\Debug\net7.0\SorokChatServer.csproj.CopyComplete
