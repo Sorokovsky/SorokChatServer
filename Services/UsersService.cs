@@ -1,5 +1,6 @@
 ﻿using SorokChatServer.Database.Entities;
 using SorokChatServer.Database.Repositories;
+using System.Net;
 
 namespace SorokChatServer.Services
 {
@@ -14,12 +15,22 @@ namespace SorokChatServer.Services
 
         public List<UsersEntity> GetAll()
         {
-            return _userRepository.GetAll();
+            List<UsersEntity> users = _userRepository.Find(user => true);
+            if(users.Count == 0)
+            {
+                throw new BadHttpRequestException("Users not found");
+            }
+            return users;
         }
 
         public UsersEntity GetById(long id)
         {
-            return _userRepository.GetById(id);
+            List<UsersEntity> users = _userRepository.Find(user => user.Id == id);
+            if(users.Count < 1)
+            {
+                throw new BadHttpRequestException($"User with id = {id} not found");
+            }
+            return users.First();
         }
 
         public UsersEntity Create(UsersEntity user)
@@ -35,7 +46,7 @@ namespace SorokChatServer.Services
 
         public UsersEntity Delete(long id)
         {
-            return _userRepository.Delete(id);
+            return _userRepository.Delete(new UsersEntity(id));
         }
     }
 }

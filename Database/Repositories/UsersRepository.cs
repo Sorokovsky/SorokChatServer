@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SorokChatServer.Database.Context;
+﻿using SorokChatServer.Database.Context;
 using SorokChatServer.Database.Entities;
 
 namespace SorokChatServer.Database.Repositories
@@ -20,32 +19,18 @@ namespace SorokChatServer.Database.Repositories
             return created;
         }
 
-        public UsersEntity Delete(long id)
+        public UsersEntity Delete(UsersEntity usersEntity)
         {
-            UsersEntity deleted =  _context.Users.Remove(new UsersEntity() { Id = id }).Entity;
+            UsersEntity deleted =  _context.Users.Remove(usersEntity).Entity;
             _context.SaveChanges();
             return deleted;
         }
 
-        public List<UsersEntity> GetAll()
+        public List<UsersEntity> Find(Func<UsersEntity, bool> predicate)
         {
-            List<UsersEntity> users = _context.Users.FromSqlRaw("SELECT * FROM users").ToList();
+            List<UsersEntity> users = _context.Users.Where(predicate).ToList();
             _context.SaveChanges();
             return users;
-
-        }
-
-        public UsersEntity GetById(long id)
-        {
-            try
-            {
-                UsersEntity user = _context.Users.First(user => user.Id == id);
-                _context.SaveChanges();
-                return user;
-            } catch(Exception ex)
-            {
-                throw new BadHttpRequestException(ex.Message);
-            }
         }
 
         public UsersEntity Update(UsersEntity user)

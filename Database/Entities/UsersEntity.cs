@@ -30,5 +30,10 @@ namespace SorokChatServer.Database.Entities
         [Column("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
+        public UsersEntity(long id)
+        {
+            Id = id;
+        }
     }
+
 }
