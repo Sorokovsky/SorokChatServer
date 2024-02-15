@@ -1,3 +1,4 @@
+using SorokChatServer.Database.Context;
 using SorokChatServer.Database.Repositories;
 using SorokChatServer.Services;
 
@@ -10,6 +11,7 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddSingleton(typeof(ChatContext));
         builder.Services.AddScoped<IUsersRepository, UsersRepository>();
         builder.Services.AddScoped(typeof(UsersService));
         WebApplication app = builder.Build();

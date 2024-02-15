@@ -37,9 +37,15 @@ namespace SorokChatServer.Database.Repositories
 
         public UsersEntity GetById(long id)
         {
-            UsersEntity user = _context.Users.First(user => user.Id == id);
-            _context.SaveChanges();
-            return user;
+            try
+            {
+                UsersEntity user = _context.Users.First(user => user.Id == id);
+                _context.SaveChanges();
+                return user;
+            } catch(Exception ex)
+            {
+                throw new BadHttpRequestException(ex.Message);
+            }
         }
 
         public UsersEntity Update(UsersEntity user)

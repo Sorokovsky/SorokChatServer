@@ -16,5 +16,26 @@ namespace SorokChatServer.Services
         {
             return _userRepository.GetAll();
         }
+
+        public UsersEntity GetById(long id)
+        {
+            return _userRepository.GetById(id);
+        }
+
+        public UsersEntity Create(UsersEntity user)
+        {
+            return _userRepository.Create(user);
+        }
+
+        public UsersEntity Update(long id, UsersEntity user)
+        {
+            user.Id = id;
+            return _userRepository.Update(user);
+        }
+
+        public UsersEntity Delete(long id)
+        {
+            return _userRepository.Delete(id);
+        }
     }
 }

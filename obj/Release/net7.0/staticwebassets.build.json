@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "imxEpP3NWzpF2CnLczBO163SoQpvAIuigoeXCMSDS1A=",
+  "Source": "SorokChatServer",
+  "BasePath": "_content/SorokChatServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
