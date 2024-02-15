@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SorokChatServer.Database.Entities;
 using SorokChatServer.Services;
 
@@ -25,6 +26,12 @@ namespace SorokChatServer.Controllers
         public UsersEntity GetById(long id)
         {
             return _usersService.GetById(id);
+        }
+
+        [HttpPost]
+        public UsersEntity Create([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] UsersEntity entity)
+        {
+            return _usersService.Create(entity);
         }
     }
 }
