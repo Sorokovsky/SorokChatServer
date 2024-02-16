@@ -61,12 +61,12 @@ namespace SorokChatServer.Services
             }
         }
 
-        private Func<UsersEntity, bool> GetByIdPredicate(long id)
+        private static Func<UsersEntity, bool> GetByIdPredicate(long id)
         {
             return user => user.Id == id;
         }
 
-        private Func<UsersEntity, bool> GetAllPredicate()
+        private static Func<UsersEntity, bool> GetAllPredicate()
         {
             return user => true;
         }
