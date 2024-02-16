@@ -34,6 +34,11 @@ namespace SorokChatServer.Database.Entities
         {
             Id = id;
         }
+
+        public UsersEntity()
+        {
+
+        }
     }
 
 }

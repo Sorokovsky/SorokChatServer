@@ -1,0 +1,54 @@
+﻿using SorokChatServer.Database.Entities;
+using SorokChatServer.Models;
+
+namespace SorokChatServer.Mappers
+{
+    public class UsersMapper
+    {
+        public static UsersModel ToModel(UsersEntity entity)
+        {
+            UsersModel model = new UsersModel();
+            model.Id = entity.Id;
+            model.Surname = entity.Surname;
+            model.Email = entity.Email;
+            model.Name = entity.Name;
+            model.CreatedAt = entity.CreatedAt;
+            model.UpdatedAt = entity.UpdatedAt;
+            model.AvatarPath = entity.AvatarPath;
+            return model;
+        }
+
+        public static UsersEntity ToEntity(UsersModel model)
+        {
+            UsersEntity entity = new UsersEntity();
+            entity.Id = model.Id;
+            entity.Surname = model.Surname;
+            entity.Email = model.Email;
+            entity.Name = model.Name;
+            entity.CreatedAt = model.CreatedAt;
+            entity.UpdatedAt = model.UpdatedAt;
+            entity.AvatarPath = model.AvatarPath;
+            return entity;
+        }
+
+        public static List<UsersModel> ToModels(List<UsersEntity> entities)
+        {
+            List<UsersModel> models = new List<UsersModel>();
+            foreach (UsersEntity entity in entities)
+            {
+                models.Add(ToModel(entity));
+            }
+            return models;
+        }
+
+        public static List<UsersEntity> ToEntities(List<UsersModel> models)
+        {
+            List<UsersEntity> entities = new List<UsersEntity>();
+            foreach (UsersModel model in models)
+            {
+                entities.Add(ToEntity(model));
+            }
+            return entities;
+        }
+    }
+}

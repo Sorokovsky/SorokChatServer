@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SorokChatServer.Database.Entities;
+using SorokChatServer.Models;
 using SorokChatServer.Services;
 
 namespace SorokChatServer.Controllers
@@ -16,11 +17,11 @@ namespace SorokChatServer.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<UsersEntity>> GetAll()
+        public ActionResult<List<UsersModel>> GetAll()
         {
             try 
             {
-                List<UsersEntity> users = _usersService.GetAll();
+                List<UsersModel> users = _usersService.GetAll();
                 return Ok(users);
             } 
             catch (Exception exception)
@@ -30,11 +31,11 @@ namespace SorokChatServer.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<UsersEntity> GetById(long id)
+        public ActionResult<UsersModel> GetById(long id)
         {
             try 
             {
-                UsersEntity user = _usersService.GetById(id);
+                UsersModel user = _usersService.GetById(id);
                 return Ok(user);
             }
             catch (Exception exception)
@@ -44,18 +45,18 @@ namespace SorokChatServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult<UsersEntity> Create([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] UsersEntity entity)
+        public ActionResult<UsersModel> Create([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] UsersEntity entity)
         {
-            UsersEntity user = _usersService.Create(entity);
+            UsersModel user = _usersService.Create(entity);
             return Created("/users", user);
         }
 
         [HttpPut("{id}")]
-        public ActionResult<UsersEntity> Update(long id, [FromBody] UsersEntity entity)
+        public ActionResult<UsersModel> Update(long id, [FromBody] UsersEntity entity)
         {
             try
             {
-                UsersEntity user = _usersService.Update(id, entity);
+                UsersModel user = _usersService.Update(id, entity);
                 return Ok(user);
             }
             catch (Exception exception)
@@ -65,11 +66,11 @@ namespace SorokChatServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<UsersEntity> Delete(long id)
+        public ActionResult<UsersModel> Delete(long id)
         {
             try
             {
-                UsersEntity user = _usersService.Delete(id);
+                UsersModel user = _usersService.Delete(id);
                 return Ok(user);
             }
             catch (Exception exception)

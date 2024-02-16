@@ -1,5 +1,8 @@
 ﻿using SorokChatServer.Database.Entities;
 using SorokChatServer.Database.Repositories;
+using SorokChatServer.Mappers;
+using SorokChatServer.Models;
+
 namespace SorokChatServer.Services
 {
     public class UsersService
@@ -11,9 +14,9 @@ namespace SorokChatServer.Services
             _userRepository = userRepository;
         }
 
-        public List<UsersEntity> GetAll()
+        public List<UsersModel> GetAll()
         {
-            List<UsersEntity> users = _userRepository.Find(GetAllPredicate());
+            List<UsersModel> users = UsersMapper.ToModels(_userRepository.Find(GetAllPredicate()));
             if(users.Count == 0)
             {
                 throw new Exception("Users not found");
@@ -21,9 +24,10 @@ namespace SorokChatServer.Services
             return users;
         }
 
-        public UsersEntity GetById(long id)
+        public UsersModel GetById(long id)
         {
-            List<UsersEntity> users = _userRepository.Find(GetByIdPredicate(id));
+            List<UsersEntity> entities = _userRepository.Find(GetByIdPredicate(id));
+            List<UsersModel> users = UsersMapper.ToModels(entities);
             if(users.Count < 1)
             {
                 throw new Exception($"User with id = {nameof(id)} not found");
@@ -31,17 +35,17 @@ namespace SorokChatServer.Services
             return users.First();
         }
 
-        public UsersEntity Create(UsersEntity user)
+        public UsersModel Create(UsersEntity user)
         {
-            return _userRepository.Create(user);
+            return UsersMapper.ToModel(_userRepository.Create(user));
         }
 
-        public UsersEntity Update(long id, UsersEntity user)
+        public UsersModel Update(long id, UsersEntity user)
         {   
             try
             {
                 user.Id = id;
-                return _userRepository.Update(user);
+                return UsersMapper.ToModel(_userRepository.Update(user));
             }
             catch (Exception exception)
             {
@@ -49,11 +53,11 @@ namespace SorokChatServer.Services
             }
         }
 
-        public UsersEntity Delete(long id)
+        public UsersModel Delete(long id)
         {
             try 
             {
-                return _userRepository.Delete(new UsersEntity(id));
+                return UsersMapper.ToModel(_userRepository.Delete(new UsersEntity(id)));
             }
             catch (Exception exception)
             {
