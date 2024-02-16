@@ -26,7 +26,7 @@ namespace SorokChatServer.Services
             List<UsersEntity> users = _userRepository.Find(GetByIdPredicate(id));
             if(users.Count < 1)
             {
-                throw new Exception($"User with id = {id} not found");
+                throw new Exception($"User with id = {nameof(id)} not found");
             }
             return users.First();
         }
