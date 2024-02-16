@@ -16,7 +16,7 @@ namespace SorokChatServer.Services
             List<UsersEntity> users = _userRepository.Find(GetAllPredicate());
             if(users.Count == 0)
             {
-                throw new BadHttpRequestException("Users not found");
+                throw new Exception("Users not found");
             }
             return users;
         }
@@ -26,7 +26,7 @@ namespace SorokChatServer.Services
             List<UsersEntity> users = _userRepository.Find(GetByIdPredicate(id));
             if(users.Count < 1)
             {
-                throw new BadHttpRequestException($"User with id = {id} not found");
+                throw new Exception($"User with id = {id} not found");
             }
             return users.First();
         }
@@ -37,14 +37,28 @@ namespace SorokChatServer.Services
         }
 
         public UsersEntity Update(long id, UsersEntity user)
-        {
-            user.Id = id;
-            return _userRepository.Update(user);
+        {   
+            try
+            {
+                user.Id = id;
+                return _userRepository.Update(user);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
 
         public UsersEntity Delete(long id)
         {
-            return _userRepository.Delete(new UsersEntity(id));
+            try 
+            {
+                return _userRepository.Delete(new UsersEntity(id));
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
 
         private Func<UsersEntity, bool> GetByIdPredicate(long id)

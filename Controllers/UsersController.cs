@@ -23,7 +23,7 @@ namespace SorokChatServer.Controllers
                 List<UsersEntity> users = _usersService.GetAll();
                 return Ok(users);
             } 
-            catch (BadHttpRequestException exception)
+            catch (Exception exception)
             {
                 return BadRequest(exception.Message);
             }
@@ -37,16 +37,45 @@ namespace SorokChatServer.Controllers
                 UsersEntity user = _usersService.GetById(id);
                 return Ok(user);
             }
-            catch (BadHttpRequestException exception)
+            catch (Exception exception)
             {
                 return BadRequest(exception.Message);
             }
         }
 
         [HttpPost]
-        public UsersEntity Create([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] UsersEntity entity)
+        public ActionResult<UsersEntity> Create([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] UsersEntity entity)
         {
-            return _usersService.Create(entity);
+            UsersEntity user = _usersService.Create(entity);
+            return Created("/users", user);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<UsersEntity> Update(long id, [FromBody] UsersEntity entity)
+        {
+            try
+            {
+                UsersEntity user = _usersService.Update(id, entity);
+                return Ok(user);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<UsersEntity> Delete(long id)
+        {
+            try
+            {
+                UsersEntity user = _usersService.Delete(id);
+                return Ok(user);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
     }
 }
