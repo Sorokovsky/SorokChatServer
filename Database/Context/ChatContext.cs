@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SorokChatServer.Database.Entities;
+using SorokChatServer.Interfaces;
 
 namespace SorokChatServer.Database.Context
 {

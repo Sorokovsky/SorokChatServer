@@ -1,6 +1,6 @@
 ﻿using SorokChatServer.Database.Entities;
 
-namespace SorokChatServer.Database.Repositories
+namespace SorokChatServer.Interfaces
 {
     public interface IUsersRepository
     {

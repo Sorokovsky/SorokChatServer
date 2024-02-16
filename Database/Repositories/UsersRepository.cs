@@ -1,13 +1,14 @@
 ﻿using SorokChatServer.Database.Context;
 using SorokChatServer.Database.Entities;
+using SorokChatServer.Interfaces;
 
 namespace SorokChatServer.Database.Repositories
 {
     public class UsersRepository : IUsersRepository
     {
-        private readonly ChatContext _context;
+        private readonly IChatContext _context;
 
-        public UsersRepository(ChatContext context)
+        public UsersRepository(IChatContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }

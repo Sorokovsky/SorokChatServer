@@ -1,11 +1,11 @@
 ﻿using SorokChatServer.Database.Entities;
-using SorokChatServer.Database.Repositories;
+using SorokChatServer.Interfaces;
 using SorokChatServer.Mappers;
 using SorokChatServer.Models;
 
 namespace SorokChatServer.Services
 {
-    public class UsersService
+    public class UsersService : IUsersService
     {
         private readonly IUsersRepository _userRepository;
 

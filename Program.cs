@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using SorokChatServer.Database.Context;
 using SorokChatServer.Database.Repositories;
+using SorokChatServer.Interfaces;
 using SorokChatServer.Services;
 using System.Text;
 
@@ -14,9 +15,10 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddSingleton(typeof(ChatContext));
+        builder.Services.AddSingleton<IChatContext, ChatContext>();
         builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-        builder.Services.AddScoped(typeof(UsersService));
+        builder.Services.AddSingleton<IJwtService, JwtService>();
+        builder.Services.AddScoped<IUsersService, UsersService>();
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

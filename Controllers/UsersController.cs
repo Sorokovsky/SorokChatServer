@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SorokChatServer.Database.Entities;
 using SorokChatServer.Models;
-using SorokChatServer.Services;
+using SorokChatServer.Interfaces;
 
 namespace SorokChatServer.Controllers
 {
     [ApiController, Route("/users")]
     public class UsersController : ControllerBase
     {
-        private readonly UsersService _usersService;
+        private readonly IUsersService _usersService;
 
-        public UsersController(UsersService usersService)
+        public UsersController(IUsersService usersService)
         {
             _usersService = usersService;
         }
