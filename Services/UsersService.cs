@@ -7,7 +7,6 @@ namespace SorokChatServer.Services
     public class UsersService
     {
         private readonly IUsersRepository _userRepository;
-        private readonly Func<UsersEntity, bool> _allUser = user => true;
 
         public UsersService(IUsersRepository userRepository)
         {
@@ -16,7 +15,7 @@ namespace SorokChatServer.Services
 
         public List<UsersEntity> GetAll()
         {
-            List<UsersEntity> users = _userRepository.Find(_allUser);
+            List<UsersEntity> users = _userRepository.Find(GetAllPredicate());
             if(users.Count == 0)
             {
                 throw new BadHttpRequestException("Users not found");
@@ -53,6 +52,11 @@ namespace SorokChatServer.Services
         private Func<UsersEntity, bool> GetByIdPredicate(long id)
         {
             return user => user.Id == id;
+        }
+
+        private Func<UsersEntity, bool> GetAllPredicate()
+        {
+            return user => true;
         }
     }
 }
