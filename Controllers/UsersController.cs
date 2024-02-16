@@ -5,8 +5,7 @@ using SorokChatServer.Services;
 
 namespace SorokChatServer.Controllers
 {
-    [ApiController]
-    [Route("/users")]
+    [ApiController, Route("/users")]
     public class UsersController : ControllerBase
     {
         private readonly UsersService _usersService;
@@ -17,15 +16,31 @@ namespace SorokChatServer.Controllers
         }
 
         [HttpGet]
-        public List<UsersEntity> GetAll()
+        public ActionResult<List<UsersEntity>> GetAll()
         {
-            return _usersService.GetAll();
+            try 
+            {
+                List<UsersEntity> users = _usersService.GetAll();
+                return Ok(users);
+            } 
+            catch (BadHttpRequestException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpGet("{id}")]
-        public UsersEntity GetById(long id)
+        public ActionResult<UsersEntity> GetById(long id)
         {
-            return _usersService.GetById(id);
+            try 
+            {
+                UsersEntity user = _usersService.GetById(id);
+                return Ok(user);
+            }
+            catch (BadHttpRequestException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpPost]

@@ -1,7 +1,5 @@
 ﻿using SorokChatServer.Database.Entities;
 using SorokChatServer.Database.Repositories;
-using System.Net;
-
 namespace SorokChatServer.Services
 {
     public class UsersService

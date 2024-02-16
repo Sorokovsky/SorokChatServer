@@ -25,6 +25,7 @@ internal class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        app.UseExceptionHandler(opt => {});
 
         app.MapControllers();
 
