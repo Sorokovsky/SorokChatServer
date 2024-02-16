@@ -16,7 +16,6 @@ internal class Program
         builder.Services.AddScoped(typeof(UsersService));
         WebApplication app = builder.Build();
 
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
