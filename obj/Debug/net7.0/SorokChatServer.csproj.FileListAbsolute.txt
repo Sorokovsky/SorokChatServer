@@ -60,3 +60,11 @@ D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.De
 D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Mono.TextTemplating.dll
 D:\progects\c#\SorokChatServer\obj\Debug\net7.0\SorokChatServer.csproj.CopyComplete
+D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\progects\c#\SorokChatServer\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+D:\progects\c#\SorokChatServer\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
