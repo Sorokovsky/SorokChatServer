@@ -43,6 +43,8 @@ namespace SorokChatServer.Services
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = true,
+                ValidateAudience = true,
                 ValidateLifetime = true
             };
 
@@ -73,6 +75,8 @@ namespace SorokChatServer.Services
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true
         };
 
@@ -81,7 +85,7 @@ namespace SorokChatServer.Services
             SecurityToken securityToken;
             ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
 
-            if (securityToken.ValidTo > DateTime.UtcNow)
+            if (securityToken.ValidTo > DateTime.Now)
             {
                 return true;
             }
@@ -105,9 +109,9 @@ namespace SorokChatServer.Services
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken token = new JwtSecurityToken(
-              _configuration["Jwt:Issuer"],
-              _configuration["Jwt:Audit"],
-              new List<Claim>() { new Claim("user", json) },
+              claims: new List<Claim>() { new Claim("user", json) },
+              issuer: _configuration["Jwt:Issuer"],
+              audience: _configuration["Jwt:Audit"],
               expires: DateTime.Now.AddMilliseconds(expirationTime),
               signingCredentials: credentials);
 
