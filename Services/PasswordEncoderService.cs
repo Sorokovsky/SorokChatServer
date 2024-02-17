@@ -12,8 +12,6 @@ namespace SorokChatServer.Services
             {
                 byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-                // Create a new StringBuilder to collect the bytes
-                // and create a string.
                 StringBuilder stringBuilder = new StringBuilder();
 
                 for (int i = 0; i < data.Length; i++)
@@ -21,7 +19,6 @@ namespace SorokChatServer.Services
                     stringBuilder.Append(data[i].ToString("x2"));
                 }
 
-                // Return the hexadecimal string.
                 return stringBuilder.ToString();
             }
         }

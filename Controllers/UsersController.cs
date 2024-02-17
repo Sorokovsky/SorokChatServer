@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SorokChatServer.Database.Entities;
 using SorokChatServer.Models;
 using SorokChatServer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using SorokChatServer.Mappers;
 
 namespace SorokChatServer.Controllers
 {
-    [ApiController, Route("/users")]
+    [ApiController, Route("/users"), Authorize("Unauthorization")]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
@@ -21,7 +23,12 @@ namespace SorokChatServer.Controllers
         {
             try 
             {
-                List<UsersModel> users = _usersService.GetAll();
+                List<UsersEntity>? entities = _usersService.GetAll();
+                if (entities == null)
+                {
+                    throw new Exception("Users not founded");
+                }
+                List<UsersModel> users = UsersMapper.ToModels(entities);
                 return Ok(users);
             } 
             catch (Exception exception)
@@ -33,9 +40,14 @@ namespace SorokChatServer.Controllers
         [HttpGet("{id}")]
         public ActionResult<UsersModel> GetById(long id)
         {
-            try 
+            try
             {
-                UsersModel user = _usersService.GetById(id);
+                UsersEntity? entity = _usersService.GetById(id);
+                if (entity == null)
+                {
+                    throw new Exception($"User with {nameof(id)} == {id} not founded");
+                }
+                UsersModel user = UsersMapper.ToModel(entity);
                 return Ok(user);
             }
             catch (Exception exception)
@@ -47,7 +59,7 @@ namespace SorokChatServer.Controllers
         [HttpPost]
         public ActionResult<UsersModel> Create([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] UsersEntity entity)
         {
-            UsersModel user = _usersService.Create(entity);
+            UsersModel user = UsersMapper.ToModel(_usersService.Create(entity));
             return Created("/users", user);
         }
 
@@ -56,7 +68,7 @@ namespace SorokChatServer.Controllers
         {
             try
             {
-                UsersModel user = _usersService.Update(id, entity);
+                UsersModel user = UsersMapper.ToModel(_usersService.Update(id, entity));
                 return Ok(user);
             }
             catch (Exception exception)
@@ -70,7 +82,7 @@ namespace SorokChatServer.Controllers
         {
             try
             {
-                UsersModel user = _usersService.Delete(id);
+                UsersModel user = UsersMapper.ToModel(_usersService.Delete(id));
                 return Ok(user);
             }
             catch (Exception exception)

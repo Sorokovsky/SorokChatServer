@@ -1,7 +1,5 @@
 ﻿using SorokChatServer.Database.Entities;
 using SorokChatServer.Interfaces;
-using SorokChatServer.Mappers;
-using SorokChatServer.Models;
 
 namespace SorokChatServer.Services
 {
@@ -14,38 +12,55 @@ namespace SorokChatServer.Services
             _userRepository = userRepository;
         }
 
-        public List<UsersModel> GetAll()
+        public List<UsersEntity>? GetAll()
         {
-            List<UsersModel> users = UsersMapper.ToModels(_userRepository.Find(GetAllPredicate()));
-            if(users.Count == 0)
+            List<UsersEntity> users = _userRepository.Find(GetAllPredicate());
+            if (users.Count == 0)
             {
-                throw new Exception("Users not found");
+                return null;
             }
             return users;
         }
 
-        public UsersModel GetById(long id)
+        public UsersEntity? GetByEmail(string email)
+        {
+            try
+            {
+                List<UsersEntity> users = _userRepository.Find(GetByEmailPredicate(email));
+                if(users.Count < 1)
+                {
+                    return null;
+                }
+                return users.First();
+            }
+            catch(Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+
+        public UsersEntity? GetById(long id)
         {
             List<UsersEntity> entities = _userRepository.Find(GetByIdPredicate(id));
-            List<UsersModel> users = UsersMapper.ToModels(entities);
-            if(users.Count < 1)
+            List<UsersEntity> users = entities;
+            if (users.Count < 1)
             {
-                throw new Exception($"User with id = {nameof(id)} not found");
+                return null;
             }
             return users.First();
         }
 
-        public UsersModel Create(UsersEntity user)
+        public UsersEntity Create(UsersEntity user)
         {
-            return UsersMapper.ToModel(_userRepository.Create(user));
+            return _userRepository.Create(user);
         }
 
-        public UsersModel Update(long id, UsersEntity user)
-        {   
+        public UsersEntity Update(long id, UsersEntity user)
+        {
             try
             {
                 user.Id = id;
-                return UsersMapper.ToModel(_userRepository.Update(user));
+                return _userRepository.Update(user);
             }
             catch (Exception exception)
             {
@@ -53,11 +68,11 @@ namespace SorokChatServer.Services
             }
         }
 
-        public UsersModel Delete(long id)
+        public UsersEntity Delete(long id)
         {
-            try 
+            try
             {
-                return UsersMapper.ToModel(_userRepository.Delete(new UsersEntity(id)));
+                return _userRepository.Delete(new UsersEntity(id));
             }
             catch (Exception exception)
             {
@@ -73,6 +88,11 @@ namespace SorokChatServer.Services
         private static Func<UsersEntity, bool> GetAllPredicate()
         {
             return user => true;
+        }
+
+        private static Func<UsersEntity, bool> GetByEmailPredicate(string email)
+        {
+            return user => user.Email == email;
         }
     }
 }

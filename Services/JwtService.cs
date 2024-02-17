@@ -35,7 +35,9 @@ namespace SorokChatServer.Services
         public T ExtractToken<T>(string token)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(_configuration["Jwt:SecretKey"]);
+            string? secretKey = _configuration["Jwt:SecretKey"];
+            ArgumentNullException.ThrowIfNull(secretKey, nameof(secretKey));
+            byte[] key = Encoding.ASCII.GetBytes(secretKey);
 
             TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
             {
@@ -48,8 +50,13 @@ namespace SorokChatServer.Services
 
             SecurityToken securityToken;
             ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-            string json = principal.FindFirst("user").Value;
-            return JsonSerializer.Deserialize<T>(json);
+            Claim? claim = principal.FindFirst("user");
+            ArgumentNullException.ThrowIfNull(claim, nameof(claim));
+            string json = claim.Value;
+            ArgumentNullException.ThrowIfNull(json, nameof(json));
+            T? payload = JsonSerializer.Deserialize<T>(json);
+            ArgumentNullException.ThrowIfNull(payload, nameof(payload));
+            return payload;
         }
 
         public string GenerateRefreshToken<T>(T payload)
@@ -60,7 +67,9 @@ namespace SorokChatServer.Services
         private string GenerateToken<T>(T payload, int expirationTime)
         {
             string json = JsonSerializer.Serialize(payload);
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
+            string? secretKey = _configuration["Jwt:SecretKey"];
+            ArgumentNullException.ThrowIfNull(secretKey, nameof(secretKey));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken token = new JwtSecurityToken(
