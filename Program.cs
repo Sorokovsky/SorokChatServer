@@ -15,10 +15,13 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton<IChatContext, ChatContext>();
         builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+        builder.Services.AddSingleton<IPasswordEncoderService, PasswordEncoderService>();
         builder.Services.AddSingleton<IJwtService, JwtService>();
         builder.Services.AddScoped<IUsersService, UsersService>();
+        builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
