@@ -8,7 +8,7 @@ using SorokChatServer.Mappers;
 
 namespace SorokChatServer.Controllers
 {
-    [ApiController, Route("/users"), Authorize("Unauthorization")]
+    [ApiController, Route("/users"), Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
