@@ -4,5 +4,6 @@
     {
         public void SetAccessToken(string token);
         public void DeleteAccessToken();
+        public string GetAccessToken();
     }
 }

@@ -1,13 +1,10 @@
 ﻿using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using SorokChatServer.Database.Context;
 using SorokChatServer.Database.Repositories;
 using SorokChatServer.Interfaces;
 using SorokChatServer.Services;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.AspNetCore.Authentication;
+using SorokChatServer.Authorization;
 
 namespace SorokChatServer
 {
@@ -23,6 +20,11 @@ namespace SorokChatServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("YourCustomPolicy", policy =>
+                policy.Requirements.Add(new AuthorizationRequerment()));
+            });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(ConfigurateSwagger());
 
@@ -36,11 +38,18 @@ namespace SorokChatServer
             services.AddScoped<IBearerService, BearerService>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
 
-            services
-                .AddAuthentication(ConfigurateAuthentication())
-                .AddJwtBearer(ConfigurateBearerAuthorization());
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("MyPolicy", policy =>
+                {
+                    policy.Requirements.Add(new AuthorizationRequerment());
+                });
+                options.DefaultPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+            });
+            services.AddScoped<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, AuthorizationCustomHandler>();
         }
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -93,33 +102,6 @@ namespace SorokChatServer
                         new string[] { }
                     }
                 });
-            };
-        }
-        private static Action<AuthenticationOptions> ConfigurateAuthentication()
-        {
-            return options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            };
-        }
-        private Action<JwtBearerOptions> ConfigurateBearerAuthorization()
-        {
-            return options =>
-            {
-                string? secretKey = Configuration["Jwt:SecretKey"];
-                ArgumentNullException.ThrowIfNull(secretKey, nameof(secretKey));
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    RequireExpirationTime = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audit"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-                };
             };
         }
     }

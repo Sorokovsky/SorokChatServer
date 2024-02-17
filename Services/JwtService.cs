@@ -43,8 +43,6 @@ namespace SorokChatServer.Services
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
-                ValidateAudience = true,
                 ValidateLifetime = true
             };
 
@@ -63,6 +61,40 @@ namespace SorokChatServer.Services
         {
             return GenerateToken(payload, REFRESH_EXPIRATION_TIME);
         }
+
+        public bool IsTokenValid(string token)
+    {
+        JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+        string? secretKey = _configuration["Jwt:SecretKey"];
+        ArgumentNullException.ThrowIfNull(secretKey, nameof(secretKey));
+        byte[] key = Encoding.ASCII.GetBytes(secretKey);
+
+        TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateLifetime = true
+        };
+
+        try
+        {
+            SecurityToken securityToken;
+            ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+
+            if (securityToken.ValidTo > DateTime.UtcNow)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 
         private string GenerateToken<T>(T payload, int expirationTime)
         {
