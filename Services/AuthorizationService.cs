@@ -31,6 +31,11 @@ namespace SorokChatServer.Services
 
         public UsersModel Registration(UsersEntity user)
         {
+            UsersEntity? candidate = _usersService.GetByEmail(user.Email);
+            if(candidate != null)
+            {
+                throw new Exception($"User with {nameof(user.Email)} == {user.Email} is exists");
+            }
             string encodedPassword = _passwordEncoderService.Encode(user.Password);
             user.Password = encodedPassword;
             UsersModel createdUser = UsersMapper.ToModel(_usersService.Create(user));

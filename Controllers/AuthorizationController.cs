@@ -18,8 +18,15 @@ namespace SorokChatServer.Controllers
         [HttpPost]
         public ActionResult Registration([FromBody] UsersEntity user)
         {
-            UsersModel createdUser = _authorizationService.Registration(user);
-            return Ok(createdUser);
+            try
+            {
+                UsersModel createdUser = _authorizationService.Registration(user);
+                return Ok(createdUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

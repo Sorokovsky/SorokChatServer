@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SorokChatServer.Database.Entities
 {
-    [Table("users")]
+    [Table("users"), Microsoft.EntityFrameworkCore.Index(nameof(Email), IsUnique = true)]
     public class UsersEntity
     {
         [Key, Column("id"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]

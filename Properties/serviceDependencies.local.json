@@ -1,13 +1,3 @@
 {
-  "dependencies": {
-    "postgresql1": {
-      "containerPorts": "5432:5432",
-      "secretStore": null,
-      "containerName": "postgresql",
-      "containerImage": "postgres",
-      "type": "postgresql.container",
-      "connectionId": "WebApiDatabase",
-      "dynamicId": null
-    }
-  }
+  "dependencies": {}
 }
