@@ -7,6 +7,6 @@ namespace SorokChatServer.Interfaces
     {
         public UsersModel Registration(UsersEntity user);
         public UsersModel Login(UsersEntity user);
-        public void logout();
+        public void Logout();
     }
 }

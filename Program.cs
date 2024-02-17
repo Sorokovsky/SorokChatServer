@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SorokChatServer.Database.Context;
 using SorokChatServer.Database.Repositories;
 using SorokChatServer.Interfaces;
@@ -14,7 +15,32 @@ internal class Program
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(
+            c =>
+            {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+            }
+        );
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton<IChatContext, ChatContext>();
         builder.Services.AddScoped<IUsersRepository, UsersRepository>();
@@ -22,6 +48,7 @@ internal class Program
         builder.Services.AddSingleton<IPasswordEncoderService, PasswordEncoderService>();
         builder.Services.AddSingleton<IJwtService, JwtService>();
         builder.Services.AddScoped<IUsersService, UsersService>();
+        builder.Services.AddScoped<IBearerService, BearerService>();
         builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
         builder.Services.AddAuthentication(options =>
         {

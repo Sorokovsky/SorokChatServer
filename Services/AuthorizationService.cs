@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using SorokChatServer.Database.Entities;
+﻿using SorokChatServer.Database.Entities;
 using SorokChatServer.Interfaces;
 using SorokChatServer.Mappers;
 using SorokChatServer.Models;
@@ -12,23 +11,22 @@ namespace SorokChatServer.Services
         private readonly IJwtService _jwtService;
         private readonly IPasswordEncoderService _passwordEncoderService;
         private readonly ICookieService _cookieService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IBearerService _bearerService;
         private readonly string _refreshKey = "refresh_token";
-        private readonly string _accessKey = "Authorization";
 
         public AuthorizationService(
-            IUsersService usersService, 
-            IJwtService jwtService, 
-            IPasswordEncoderService passwordEncoderService, 
-            ICookieService cookieService, 
-            IHttpContextAccessor httpContextAccessor
+            IUsersService usersService,
+            IJwtService jwtService,
+            IPasswordEncoderService passwordEncoderService,
+            ICookieService cookieService,
+            IBearerService bearerService
             )
         {
             _usersService = usersService;
             _jwtService = jwtService;
             _passwordEncoderService = passwordEncoderService;
             _cookieService = cookieService;
-            _httpContextAccessor = httpContextAccessor;
+            _bearerService = bearerService;
         }
 
         public UsersModel Registration(UsersEntity user)
@@ -37,7 +35,7 @@ namespace SorokChatServer.Services
             user.Password = encodedPassword;
             UsersModel createdUser = UsersMapper.ToModel(_usersService.Create(user));
             TokensModel tokens = _jwtService.GenerateTokens(createdUser);
-            SetAccessToken(tokens.AccessToken);
+            _bearerService.SetAccessToken(tokens.AccessToken);
             _cookieService.Set(_refreshKey, tokens.RefreshToken);
             return createdUser;
         }
@@ -58,29 +56,17 @@ namespace SorokChatServer.Services
             }
 
             TokensModel tokens = _jwtService.GenerateTokens(candidate);
-            SetAccessToken(tokens.AccessToken);
+            _bearerService.SetAccessToken(tokens.AccessToken);
             _cookieService.Set( _refreshKey, tokens.RefreshToken);
             UsersModel loginedUser = UsersMapper.ToModel(candidate);
             return loginedUser;
         }
 
-        public void logout()
+        public void Logout()
         {
             _cookieService.Delete(_refreshKey);
-            DeleteAccessToken();
-            
-        }
+            _bearerService.DeleteAccessToken();
 
-        private void SetAccessToken(string accessToken)
-        {
-            ArgumentNullException.ThrowIfNull(_httpContextAccessor.HttpContext, nameof(_httpContextAccessor.HttpContext));
-            _httpContextAccessor.HttpContext.Response.Headers.Add(_accessKey, $"Bearer {accessToken}");
-        }
-
-        private void DeleteAccessToken()
-        {
-            ArgumentNullException.ThrowIfNull(_httpContextAccessor.HttpContext, nameof(_httpContextAccessor.HttpContext));
-            _httpContextAccessor.HttpContext.Response.Headers.Remove(_accessKey);
         }
     }
 }
