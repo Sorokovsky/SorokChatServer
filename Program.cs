@@ -32,8 +32,8 @@ internal class Program
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 RequireExpirationTime = true,
-                ValidIssuer = builder.Configuration["Jwt:Issuer"], // Ваше видавництво (видавець) JWT
-                ValidAudience = builder.Configuration["Jwt:Audit"], // Ваше аудиторія
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audit"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
             };
         });
