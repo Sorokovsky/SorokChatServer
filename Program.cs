@@ -18,6 +18,7 @@ internal class Program
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton<IChatContext, ChatContext>();
         builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+        builder.Services.AddSingleton<ICookieService, CookieService>();
         builder.Services.AddSingleton<IPasswordEncoderService, PasswordEncoderService>();
         builder.Services.AddSingleton<IJwtService, JwtService>();
         builder.Services.AddScoped<IUsersService, UsersService>();
