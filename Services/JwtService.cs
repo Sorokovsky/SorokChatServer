@@ -10,14 +10,20 @@ namespace SorokChatServer.Services
 {
     public class JwtService : IJwtService
     {
-        private readonly int ACCESS_EXPIRATION_TIME = 1000 * 60 * 15;
-        private readonly int REFRESH_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
-
+        private readonly int ACCESS_EXPIRATION_TIME = 60 * 15;
+        private readonly int REFRESH_EXPIRATION_TIME = 60 * 60 * 24 * 7;
         private readonly IConfiguration _configuration;
+        private readonly SymmetricSecurityKey _jwtSecret;
+        private readonly string _issuer;
+        private readonly string _audit;
 
         public JwtService(IConfiguration configuration)
         {
             _configuration = configuration;
+            string secretKey = _configuration["Jwt:SecretKey"];
+            _jwtSecret = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+            _audit = _configuration["Jwt:Audit"];
+            _issuer = _configuration["Jwt:Issuer"];
         }
 
         public TokensModel GenerateTokens<T>(T payload)
@@ -34,28 +40,18 @@ namespace SorokChatServer.Services
 
         public T ExtractToken<T>(string token)
         {
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            string? secretKey = _configuration["Jwt:SecretKey"];
-            ArgumentNullException.ThrowIfNull(secretKey, nameof(secretKey));
-            byte[] key = Encoding.ASCII.GetBytes(secretKey);
-
-            TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
+            SecurityToken security;
+            ClaimsPrincipal principal = GetPrincipal(token, out security);
+            string? json = principal.Claims.First(c => c.Type == "user")?.Value;
+            if (json == null)
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true
-            };
-
-            SecurityToken securityToken;
-            ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-            Claim? claim = principal.FindFirst("user");
-            ArgumentNullException.ThrowIfNull(claim, nameof(claim));
-            string json = claim.Value;
-            ArgumentNullException.ThrowIfNull(json, nameof(json));
+                throw new Exception("Token not have user");
+            }
             T? payload = JsonSerializer.Deserialize<T>(json);
-            ArgumentNullException.ThrowIfNull(payload, nameof(payload));
+            if(payload == null)
+            {
+                throw new Exception("Payload is null");
+            }
             return payload;
         }
 
@@ -65,57 +61,66 @@ namespace SorokChatServer.Services
         }
 
         public bool IsTokenValid(string token)
-    {
-        JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-        string? secretKey = _configuration["Jwt:SecretKey"];
-        ArgumentNullException.ThrowIfNull(secretKey, nameof(secretKey));
-        byte[] key = Encoding.ASCII.GetBytes(secretKey);
-
-        TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true
-        };
-
-        try
-        {
-            SecurityToken securityToken;
-            ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-
-            if (securityToken.ValidTo > DateTime.Now)
+            try
             {
-                return true;
+                SecurityToken securityToken;
+                ClaimsPrincipal principal = GetPrincipal(token, out securityToken);
+
+                if (securityToken.ValidTo > DateTime.Now)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
                 return false;
             }
         }
-        catch (Exception)
-        {
-            return false;
-        }
-    }
 
         private string GenerateToken<T>(T payload, int expirationTime)
         {
             string json = JsonSerializer.Serialize(payload);
-            string? secretKey = _configuration["Jwt:SecretKey"];
-            ArgumentNullException.ThrowIfNull(secretKey, nameof(secretKey));
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Sub, "user_id"),
+                new Claim("user", json)
+            };
 
-            JwtSecurityToken token = new JwtSecurityToken(
-              claims: new List<Claim>() { new Claim("user", json) },
-              issuer: _configuration["Jwt:Issuer"],
-              audience: _configuration["Jwt:Audit"],
-              expires: DateTime.Now.AddMilliseconds(expirationTime),
-              signingCredentials: credentials);
+            var key = _jwtSecret;
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var token = new JwtSecurityToken(
+                issuer: _issuer,
+                audience: _audit,
+                claims: claims,
+                expires: DateTime.Now.AddSeconds(expirationTime),
+                signingCredentials: creds);
+
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return encodedJwt;
+        }
+
+        private ClaimsPrincipal GetPrincipal(string token, out SecurityToken security)
+        {
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            TokenValidationParameters validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _jwtSecret,
+                ValidateIssuer = true,
+                ValidIssuer = _issuer,
+                ValidateAudience = true,
+                ValidAudience = _audit,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            ClaimsPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out security);
+            return principal;
         }
     }
 }

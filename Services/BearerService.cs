@@ -1,5 +1,4 @@
 ﻿using SorokChatServer.Interfaces;
-using System.Text;
 
 namespace SorokChatServer.Services
 {
@@ -27,9 +26,7 @@ namespace SorokChatServer.Services
 
         public string GetAccessToken()
         {
-            ArgumentNullException.ThrowIfNull(_httpContextAccessor.HttpContext, nameof(_httpContextAccessor.HttpContext));
             string? authorization = _httpContextAccessor.HttpContext.Request.Headers[_accessKey];
-            ArgumentNullException.ThrowIfNull(authorization, nameof(authorization));
             string[] splited = authorization.Split(' ');
 
             string accessToken = splited[1];

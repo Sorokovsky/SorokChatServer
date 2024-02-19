@@ -44,9 +44,7 @@ namespace SorokChatServer
                 {
                     policy.Requirements.Add(new AuthorizationRequerment());
                 });
-                options.DefaultPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
+                options.DefaultPolicy = options.GetPolicy("MyPolicy");
             });
             services.AddScoped<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, AuthorizationCustomHandler>();
         }

@@ -24,30 +24,38 @@ namespace SorokChatServer.Authorization
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizationRequerment requirement)
         {
+            bool isTokenValid;
+            try
+            {
                 string accessToken = _bearerService.GetAccessToken();
-                bool isTokenValid = _jwtService.IsTokenValid(accessToken);
-                if (isTokenValid == false)
+                isTokenValid = _jwtService.IsTokenValid(accessToken);
+            }
+            catch
+            {
+                isTokenValid = false;
+            }
+            if (isTokenValid == false)
+            {
+                string refreshToken = _cookieService.Get("refresh_token");
+                bool isValid = _jwtService.IsTokenValid(refreshToken);
+                if (isValid == false)
                 {
-                    string refreshToken = _cookieService.Get("refresh_token");
-                    bool isValid = _jwtService.IsTokenValid(refreshToken);
-                    if (isValid == false)
-                    {
-                        context.Fail();
-                    }
-                    else
-                    {
-                        UsersModel model = _jwtService.ExtractToken<UsersModel>(refreshToken);
-                        TokensModel tokens = _jwtService.GenerateTokens(model);
-                        _bearerService.SetAccessToken(tokens.AccessToken);
-                        _cookieService.Set("refresh_token", tokens.RefreshToken);
-                        context.Succeed(requirement);
-                    }
+                    context.Fail();
                 }
                 else
                 {
+                    UsersModel model = _jwtService.ExtractToken<UsersModel>(refreshToken);
+                    TokensModel tokens = _jwtService.GenerateTokens(model);
+                    _bearerService.SetAccessToken(tokens.AccessToken);
+                    _cookieService.Set("refresh_token", tokens.RefreshToken);
                     context.Succeed(requirement);
                 }
-                return Task.CompletedTask;
+            }
+            else
+            {
+                context.Succeed(requirement);
+            }
+            return Task.CompletedTask;
         }
     }
 }
