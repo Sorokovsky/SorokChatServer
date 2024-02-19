@@ -36,7 +36,7 @@ namespace SorokChatServer
             services.AddSingleton<IJwtService, JwtService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IBearerService, BearerService>();
-            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IAuthorizationsService, AuthorizationsService>();
 
             services.AddAuthorization(options =>
             {
@@ -88,6 +88,14 @@ namespace SorokChatServer
                     Scheme = "bearer"
                 });
 
+                c.AddSecurityDefinition("Cookie", new OpenApiSecurityScheme
+                {
+                    Description = "Cookie authentication",
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Cookie,
+                    Name = "refresh_token",
+                });
+
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -100,6 +108,17 @@ namespace SorokChatServer
                             }
                         },
                         new string[] { }
+                    },
+                    {
+                         new OpenApiSecurityScheme
+                         {
+                            Reference = new OpenApiReference
+                         {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Cookie"
+                            }
+                         },
+                         new string[] { }
                     }
                 });
             };

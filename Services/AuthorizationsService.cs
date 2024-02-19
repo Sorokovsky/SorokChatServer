@@ -5,7 +5,7 @@ using SorokChatServer.Models;
 
 namespace SorokChatServer.Services
 {
-    public class AuthorizationService : IAuthorizationService
+    public class AuthorizationsService : IAuthorizationsService
     {
         private readonly IUsersService _usersService;
         private readonly IJwtService _jwtService;
@@ -14,7 +14,7 @@ namespace SorokChatServer.Services
         private readonly IBearerService _bearerService;
         private readonly string _refreshKey = "refresh_token";
 
-        public AuthorizationService(
+        public AuthorizationsService(
             IUsersService usersService,
             IJwtService jwtService,
             IPasswordEncoderService passwordEncoderService,
