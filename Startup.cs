@@ -48,6 +48,7 @@ namespace SorokChatServer
             });
             services.AddScoped<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, AuthorizationCustomHandler>();
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -73,6 +74,7 @@ namespace SorokChatServer
                 endpoints.MapControllers();
             });
         }
+
         private static Action<SwaggerGenOptions> ConfigurateSwagger()
         {
             return c =>
