@@ -50,7 +50,7 @@ namespace SorokChatServer.Middlewares
             HttpResponse response = context.Response;
             response.ContentType = "application/json";
             response.StatusCode = (int)statusCode;
-            ErrorModel result = new ErrorModel(message, (int)statusCode);
+            ErrorModel result = new ErrorModel(message, statusCode);
             await response.WriteAsJsonAsync(result);
         }
     }

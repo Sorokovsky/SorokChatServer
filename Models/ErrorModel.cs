@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SorokChatServer.Models
@@ -11,10 +12,10 @@ namespace SorokChatServer.Models
         [JsonPropertyName("statusCode")]
         public int StatusCode { get; }
 
-        public ErrorModel(string message, int statusCode)
+        public ErrorModel(string message, HttpStatusCode statusCode)
         {
             Message = message;
-            StatusCode = statusCode;
+            StatusCode = (int)statusCode;
         }
     }
 }

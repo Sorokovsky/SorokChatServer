@@ -12,16 +12,19 @@ namespace SorokChatServer.Authorization
         private readonly IJwtService _jwtService;
         private readonly IBearerService _bearerService;
         private readonly ICookieService _cookieService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AuthorizationCustomHandler(
-            IJwtService jwtService, 
-            IBearerService bearerService, 
-            ICookieService cookieService
+            IJwtService jwtService,
+            IBearerService bearerService,
+            ICookieService cookieService,
+            IHttpContextAccessor httpContextAccessor
             )
         {
             _jwtService = jwtService;
             _bearerService = bearerService;
             _cookieService = cookieService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizationRequerment requirement)

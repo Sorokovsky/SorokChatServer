@@ -79,10 +79,6 @@ namespace SorokChatServer.Mappers
             if(model.AvatarPath != null)
             {
                 usersEntity.AvatarPath = model.AvatarPath;
-            }    
-            if (model.Password != null)
-            { 
-                usersEntity.Password = model.Password;
             }
             return usersEntity;
         }
