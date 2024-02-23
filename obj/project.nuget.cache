@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kf8H2AHZP3qvdnXpNBhkv+eiJ9oufWBDgS4hhDkpl4Yrl/rTtb4/bZHOU0m8wjk3G62XYnGv4THu2ty4aRiVQw==",
+  "dgSpecHash": "hAWIwxVo4xSkEXugN91KRnmgRkXmeYJJZ+bFabXb8z53S9buqzO0U3LWCBrSMm96skqGE7MDDlkhhTYiWDRdlg==",
   "success": true,
   "projectFilePath": "D:\\progects\\c#\\SorokChatServer\\SorokChatServer.csproj",
   "expectedPackageFiles": [
@@ -62,7 +62,11 @@
     "C:\\Users\\Андрей\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\Андрей\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\Андрей\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
-    "C:\\Users\\Андрей\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
+    "C:\\Users\\Андрей\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
+    "C:\\Users\\Андрей\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.16\\microsoft.netcore.app.ref.7.0.16.nupkg.sha512",
+    "C:\\Users\\Андрей\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.16\\microsoft.windowsdesktop.app.ref.7.0.16.nupkg.sha512",
+    "C:\\Users\\Андрей\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.16\\microsoft.aspnetcore.app.ref.7.0.16.nupkg.sha512",
+    "C:\\Users\\Андрей\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.16\\microsoft.netcore.app.host.win-x64.7.0.16.nupkg.sha512"
   ],
   "logs": []
 }

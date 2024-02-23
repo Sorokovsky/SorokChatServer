@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SorokChatServer.Database.Entities
@@ -31,11 +30,12 @@ namespace SorokChatServer.Database.Entities
         [Column("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
+        public ICollection<MessagesEntity> Messages { get; set; }
+
         public UsersEntity(long id)
         {
             Id = id;
         }
-
         public UsersEntity()
         {
 
