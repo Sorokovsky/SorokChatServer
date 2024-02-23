@@ -56,7 +56,7 @@ namespace SorokChatServer.Services
 
         public UsersEntity Delete(long id)
         {
-            return _userRepository.Delete(new UsersEntity(id));
+            return _userRepository.Delete(id);
         }
 
         private static Func<UsersEntity, bool> GetByIdPredicate(long id)

@@ -1,13 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace SorokChatServer.Models.Users
 {
     public class LoginModel
     {
-        [JsonPropertyName("email")]
+        [JsonPropertyName("email"), Required]
         public string Email { get; set; }
 
-        [JsonPropertyName("password")]
+        [JsonPropertyName("password"), Required]
         public string Password { get; set; }
     }
 }

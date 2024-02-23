@@ -58,7 +58,6 @@ namespace SorokChatServer.Mappers
             entity.Name = model.Name;
             entity.Email = model.Email;
             entity.AvatarPath = model.AvatarPath;
-            entity.Password = model.Password;
             return entity;
         }
 

@@ -1,4 +1,6 @@
-﻿using SorokChatServer.Database.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SorokChatServer.Database.Entities;
+using SorokChatServer.Exceptions;
 using SorokChatServer.Interfaces;
 
 namespace SorokChatServer.Database.Repositories
@@ -16,14 +18,16 @@ namespace SorokChatServer.Database.Repositories
         {
             user.CreatedAt = GetCurrentTime();
             user.UpdatedAt = GetCurrentTime();
-            UsersEntity created = _context.Users.Add(user).Entity;
+            _context.Users.Add(user);
             _context.SaveChangesAsync();
+            UsersEntity created = _context.Users.First(u => u.Email == user.Email);
             return created;
         }
 
-        public UsersEntity Delete(UsersEntity usersEntity)
+        public UsersEntity Delete(long id)
         {
-            UsersEntity deleted =  _context.Users.Remove(usersEntity).Entity;
+            UsersEntity deleted = _context.Users.First(u => u.Id == id);
+            _context.Users.Where(user => user.Id == id).ExecuteDelete();
             _context.SaveChangesAsync();
             return deleted;
         }
@@ -37,13 +41,34 @@ namespace SorokChatServer.Database.Repositories
 
         public UsersEntity Update(UsersEntity user)
         {
-            user.UpdatedAt = GetCurrentTime();
-            UsersEntity updated = _context.Users.Update(user).Entity;
+            UsersEntity? candidate = _context.Users.First(u => u.Id == user.Id);
+            if(candidate == null)
+            {
+                throw new NotFoundException("User not founded");
+            }
+            candidate.UpdatedAt = GetCurrentTime();
+            if(user.Surname != null)
+            {
+                candidate.Surname = user.Surname;
+            }
+            if(user.Name != null)
+            {
+                candidate.Name = user.Name;
+            }
+            if(user.Email != null)
+            {
+                candidate.Email = user.Email;
+            }
+            if(user.AvatarPath != null)
+            {
+                candidate.AvatarPath = user.AvatarPath;
+            }
+            UsersEntity updated = _context.Users.Update(candidate).Entity;
             _context.SaveChangesAsync();
             return updated;
         }
 
-        private DateTime GetCurrentTime()
+        private static DateTime GetCurrentTime()
         {
             return DateTime.UtcNow.AddHours(-1);
         }

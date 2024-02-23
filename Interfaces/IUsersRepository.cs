@@ -7,6 +7,6 @@ namespace SorokChatServer.Interfaces
         public List<UsersEntity> Find(Func<UsersEntity, bool> exrpessuin);
         public UsersEntity Create(UsersEntity user);
         public UsersEntity Update(UsersEntity user);
-        public UsersEntity Delete(UsersEntity usersEntity);
+        public UsersEntity Delete(long id);
     }
 }
