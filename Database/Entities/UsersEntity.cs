@@ -16,10 +16,10 @@ namespace SorokChatServer.Database.Entities
         [Column("name")]
         public string Name { get; set; }
 
-        [Column("email"), Required]
+        [Column("email")]
         public string Email { get; set; }
 
-        [Column("password"), Required]
+        [Column("password")]
         public string Password { get; set; }
 
         [Column("avatar_path")]

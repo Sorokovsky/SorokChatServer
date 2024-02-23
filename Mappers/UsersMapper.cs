@@ -1,5 +1,5 @@
 ﻿using SorokChatServer.Database.Entities;
-using SorokChatServer.Models;
+using SorokChatServer.Models.Users;
 
 namespace SorokChatServer.Mappers
 {
@@ -60,6 +60,32 @@ namespace SorokChatServer.Mappers
             entity.AvatarPath = model.AvatarPath;
             entity.Password = model.Password;
             return entity;
+        }
+
+        public static UsersEntity UpdateToEntity(UpdateUserModel model)
+        {
+            UsersEntity usersEntity = new UsersEntity();
+            if(model.Surname != null)
+            {
+                usersEntity.Surname = model.Surname;
+            }
+            if(model.Name != null)
+            {
+                usersEntity.Name = model.Name;
+            }
+            if(model.Email != null)
+            {
+                usersEntity.Email = model.Email;
+            }
+            if(model.AvatarPath != null)
+            {
+                usersEntity.AvatarPath = model.AvatarPath;
+            }    
+            if (model.Password != null)
+            { 
+                usersEntity.Password = model.Password;
+            }
+            return usersEntity;
         }
     }
 }

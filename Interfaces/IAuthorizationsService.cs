@@ -1,4 +1,4 @@
-﻿using SorokChatServer.Models;
+﻿using SorokChatServer.Models.Users;
 
 namespace SorokChatServer.Interfaces
 {

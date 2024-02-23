@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SorokChatServer.Database.Entities;
-using SorokChatServer.Models;
 using SorokChatServer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using SorokChatServer.Mappers;
+using SorokChatServer.Models.Users;
 
 namespace SorokChatServer.Controllers
 {
@@ -50,9 +50,9 @@ namespace SorokChatServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<UsersModel> Update(long id, [FromBody] UsersEntity entity)
+        public ActionResult<UsersModel> Update(long id, [FromBody] UpdateUserModel entity)
         {
-            UsersModel user = UsersMapper.ToModel(_usersService.Update(id, entity));
+            UsersModel user = UsersMapper.ToModel(_usersService.Update(id, UsersMapper.UpdateToEntity(entity)));
             return Ok(user);
         }
 

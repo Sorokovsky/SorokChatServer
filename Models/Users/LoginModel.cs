@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SorokChatServer.Models
+namespace SorokChatServer.Models.Users
 {
     public class LoginModel
     {

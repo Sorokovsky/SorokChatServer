@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SorokChatServer.Database.Entities;
 using SorokChatServer.Interfaces;
 using SorokChatServer.Mappers;
-using SorokChatServer.Models;
+using SorokChatServer.Models.Users;
 
 namespace SorokChatServer.Controllers
 {

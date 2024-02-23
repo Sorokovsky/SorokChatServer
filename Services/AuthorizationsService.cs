@@ -3,6 +3,7 @@ using SorokChatServer.Exceptions;
 using SorokChatServer.Interfaces;
 using SorokChatServer.Mappers;
 using SorokChatServer.Models;
+using SorokChatServer.Models.Users;
 
 namespace SorokChatServer.Services
 {

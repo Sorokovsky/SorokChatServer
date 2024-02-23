@@ -2,6 +2,7 @@
 using SorokChatServer.Exceptions;
 using SorokChatServer.Interfaces;
 using SorokChatServer.Models;
+using SorokChatServer.Models.Users;
 
 namespace SorokChatServer.Authorization
 {

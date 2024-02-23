@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SorokChatServer.Models
+namespace SorokChatServer.Models.Users
 {
     [Serializable]
     public class UsersModel
@@ -8,7 +8,7 @@ namespace SorokChatServer.Models
         [JsonPropertyName("id")]
         public long Id { get; set; }
 
-        [JsonPropertyName ("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         [JsonPropertyName("email")]
@@ -21,7 +21,7 @@ namespace SorokChatServer.Models
         public DateTime CreatedAt { get; set; }
 
         [JsonPropertyName("updated_at")]
-        public DateTime UpdatedAt { get; set;}
+        public DateTime UpdatedAt { get; set; }
 
         [JsonPropertyName("avatar_path")]
         public string AvatarPath { get; set; }
