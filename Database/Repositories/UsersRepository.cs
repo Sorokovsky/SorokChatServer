@@ -1,5 +1,4 @@
-﻿using SorokChatServer.Database.Context;
-using SorokChatServer.Database.Entities;
+﻿using SorokChatServer.Database.Entities;
 using SorokChatServer.Interfaces;
 
 namespace SorokChatServer.Database.Repositories
@@ -15,6 +14,8 @@ namespace SorokChatServer.Database.Repositories
 
         public UsersEntity Create(UsersEntity user)
         {
+            user.CreatedAt = DateTime.UtcNow.AddHours(-1);
+            user.UpdatedAt = DateTime.UtcNow.AddHours(-1);
             UsersEntity created = _context.Users.Add(user).Entity;
             _context.SaveChangesAsync();
             return created;
@@ -36,6 +37,7 @@ namespace SorokChatServer.Database.Repositories
 
         public UsersEntity Update(UsersEntity user)
         {
+            user.UpdatedAt = DateTime.UtcNow.AddHours(-1);
             UsersEntity updated = _context.Users.Update(user).Entity;
             _context.SaveChangesAsync();
             return updated;

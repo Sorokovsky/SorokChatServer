@@ -18,7 +18,7 @@ namespace SorokChatServer.Controllers
         }
 
         [HttpPost("registration")]
-        public ActionResult Registration([FromBody] UsersEntity user)
+        public ActionResult Registration([FromBody] RegistrationModel user)
         {
             try
             {

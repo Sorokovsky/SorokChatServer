@@ -30,7 +30,7 @@ namespace SorokChatServer.Services
             _bearerService = bearerService;
         }
 
-        public UsersModel Registration(UsersEntity user)
+        public UsersModel Registration(RegistrationModel user)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace SorokChatServer.Services
             {
                 string encodedPassword = _passwordEncoderService.Encode(user.Password);
                 user.Password = encodedPassword;
-                UsersModel createdUser = UsersMapper.ToModel(_usersService.Create(user));
+                UsersModel createdUser = UsersMapper.ToModel(_usersService.Create(UsersMapper.RegistrationToEntity(user)));
                 TokensModel tokens = _jwtService.GenerateTokens(createdUser);
                 _bearerService.SetAccessToken(tokens.AccessToken);
                 _cookieService.Set(_refreshKey, tokens.RefreshToken);

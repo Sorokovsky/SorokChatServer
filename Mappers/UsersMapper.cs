@@ -50,5 +50,16 @@ namespace SorokChatServer.Mappers
             }
             return entities;
         }
+
+        public static UsersEntity RegistrationToEntity(RegistrationModel model)
+        {
+            UsersEntity entity = new UsersEntity();
+            entity.Surname = model.Surname;
+            entity.Name = model.Name;
+            entity.Email = model.Email;
+            entity.AvatarPath = model.AvatarPath;
+            entity.Password = model.Password;
+            return entity;
+        }
     }
 }
