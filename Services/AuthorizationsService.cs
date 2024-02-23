@@ -1,4 +1,5 @@
 ﻿using SorokChatServer.Database.Entities;
+using SorokChatServer.Exceptions;
 using SorokChatServer.Interfaces;
 using SorokChatServer.Mappers;
 using SorokChatServer.Models;
@@ -34,7 +35,7 @@ namespace SorokChatServer.Services
             UsersEntity? candidate = _usersService.GetByEmail(user.Email);
             if(candidate != null)
             {
-                throw new Exception($"User with {nameof(user.Email)} == {user.Email} is exists");
+                throw new AlreadyExistsException($"User with {nameof(user.Email)} == {user.Email} is exists");
             }
             string encodedPassword = _passwordEncoderService.Encode(user.Password);
             user.Password = encodedPassword;
@@ -50,14 +51,14 @@ namespace SorokChatServer.Services
             UsersEntity? candidate = _usersService.GetByEmail(user.Email);
             if (candidate == null)
             {
-                throw new ArgumentException($"User with ${nameof(user.Email)} == {user.Email} not founded");
+                throw new NotFountException($"User with ${nameof(user.Email)} == {user.Email} not founded");
             }
 
             bool isCorrectPassword = _passwordEncoderService.Verify(user.Password, candidate.Password);
 
             if (isCorrectPassword == false)
             {
-                throw new ArgumentException("Password invalid");
+                throw new PasswordException("Password invalid");
             }
 
             TokensModel tokens = _jwtService.GenerateTokens(candidate);
