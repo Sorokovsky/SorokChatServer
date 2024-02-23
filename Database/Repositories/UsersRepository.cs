@@ -14,8 +14,8 @@ namespace SorokChatServer.Database.Repositories
 
         public UsersEntity Create(UsersEntity user)
         {
-            user.CreatedAt = DateTime.UtcNow.AddHours(-1);
-            user.UpdatedAt = DateTime.UtcNow.AddHours(-1);
+            user.CreatedAt = GetCurrentTime();
+            user.UpdatedAt = GetCurrentTime();
             UsersEntity created = _context.Users.Add(user).Entity;
             _context.SaveChangesAsync();
             return created;
@@ -37,10 +37,15 @@ namespace SorokChatServer.Database.Repositories
 
         public UsersEntity Update(UsersEntity user)
         {
-            user.UpdatedAt = DateTime.UtcNow.AddHours(-1);
+            user.UpdatedAt = GetCurrentTime();
             UsersEntity updated = _context.Users.Update(user).Entity;
             _context.SaveChangesAsync();
             return updated;
+        }
+
+        private DateTime GetCurrentTime()
+        {
+            return DateTime.UtcNow.AddHours(-1);
         }
     }
 }
