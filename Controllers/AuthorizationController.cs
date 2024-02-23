@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using SorokChatServer.Database.Entities;
 using SorokChatServer.Interfaces;
+using SorokChatServer.Mappers;
 using SorokChatServer.Models;
 
 namespace SorokChatServer.Controllers
 {
-    [ApiController, Route("/authorization")]
+    [ApiController, Route("authorization")]
     public class AuthorizationController : ControllerBase
     {
         private readonly IAuthorizationsService _authorizationService;
@@ -16,7 +17,7 @@ namespace SorokChatServer.Controllers
             _authorizationService = authorizationService;
         }
 
-        [HttpPost]
+        [HttpPost("registration")]
         public ActionResult Registration([FromBody] UsersEntity user)
         {
             try
@@ -30,7 +31,13 @@ namespace SorokChatServer.Controllers
             }
         }
 
-        [HttpDelete, Authorize]
+        [HttpPost("login")]
+        public ActionResult Login([FromBody] LoginModel model)
+        {
+            return Ok(_authorizationService.Login(model));
+        }
+
+        [HttpDelete("logout"), Authorize]
         public ActionResult Logout()
         {
             _authorizationService.Logout();

@@ -1,4 +1,6 @@
-﻿using SorokChatServer.Interfaces;
+﻿using SorokChatServer.Exceptions;
+using SorokChatServer.Interfaces;
+using SorokChatServer.Utils;
 
 namespace SorokChatServer.Services
 {
@@ -9,6 +11,7 @@ namespace SorokChatServer.Services
         public CookieService(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
+            HttpContextChecker.Check(_httpContextAccessor);
         }
 
         public string Get(string key)
@@ -25,5 +28,6 @@ namespace SorokChatServer.Services
         {
             _httpContextAccessor.HttpContext.Response.Cookies.Delete(key);
         }
+
     }
 }

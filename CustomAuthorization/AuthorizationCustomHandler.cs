@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using SorokChatServer.Exceptions;
 using SorokChatServer.Interfaces;
 using SorokChatServer.Models;
 
@@ -40,7 +41,7 @@ namespace SorokChatServer.Authorization
                 bool isValid = _jwtService.IsTokenValid(refreshToken);
                 if (isValid == false)
                 {
-                    context.Fail();
+                    throw new UnauthorizationException();
                 }
                 else
                 {

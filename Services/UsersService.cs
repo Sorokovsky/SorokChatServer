@@ -1,4 +1,5 @@
 ﻿using SorokChatServer.Database.Entities;
+using SorokChatServer.Exceptions;
 using SorokChatServer.Interfaces;
 
 namespace SorokChatServer.Services
@@ -17,35 +18,27 @@ namespace SorokChatServer.Services
             List<UsersEntity> users = _userRepository.Find(GetAllPredicate());
             if (users.Count == 0)
             {
-                return null;
+               throw new NotFoundException("Users not found");
             }
             return users;
         }
 
-        public UsersEntity? GetByEmail(string email)
+        public UsersEntity GetByEmail(string email)
         {
-            try
+            List<UsersEntity> users = _userRepository.Find(GetByEmailPredicate(email));
+            if(users.Count < 1)
             {
-                List<UsersEntity> users = _userRepository.Find(GetByEmailPredicate(email));
-                if(users.Count < 1)
-                {
-                    return null;
-                }
-                return users.First();
+                throw new NotFoundException($"User by {nameof(email)} not found");
             }
-            catch(Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
+            return users.First();
         }
 
-        public UsersEntity? GetById(long id)
+        public UsersEntity GetById(long id)
         {
-            List<UsersEntity> entities = _userRepository.Find(GetByIdPredicate(id));
-            List<UsersEntity> users = entities;
+            List<UsersEntity> users = _userRepository.Find(GetByIdPredicate(id));
             if (users.Count < 1)
             {
-                return null;
+                throw new NotFoundException($"User by {nameof(id)} not found");
             }
             return users.First();
         }
@@ -57,27 +50,13 @@ namespace SorokChatServer.Services
 
         public UsersEntity Update(long id, UsersEntity user)
         {
-            try
-            {
-                user.Id = id;
-                return _userRepository.Update(user);
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
+            user.Id = id;
+            return _userRepository.Update(user);
         }
 
         public UsersEntity Delete(long id)
         {
-            try
-            {
-                return _userRepository.Delete(new UsersEntity(id));
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
+            return _userRepository.Delete(new UsersEntity(id));
         }
 
         private static Func<UsersEntity, bool> GetByIdPredicate(long id)

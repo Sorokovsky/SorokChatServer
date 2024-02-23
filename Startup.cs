@@ -5,6 +5,7 @@ using SorokChatServer.Interfaces;
 using SorokChatServer.Services;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using SorokChatServer.Authorization;
+using SorokChatServer.Middlewares;
 
 namespace SorokChatServer
 {
@@ -54,20 +55,16 @@ namespace SorokChatServer
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
-                });
+                app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseExceptionHandler(opt => { });
 
             app.UseEndpoints(endpoints =>
             {

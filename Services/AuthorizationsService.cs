@@ -32,30 +32,27 @@ namespace SorokChatServer.Services
 
         public UsersModel Registration(UsersEntity user)
         {
-            UsersEntity? candidate = _usersService.GetByEmail(user.Email);
-            if(candidate != null)
+            try
             {
-                throw new AlreadyExistsException($"User with {nameof(user.Email)} == {user.Email} is exists");
+                UsersEntity candidate = _usersService.GetByEmail(user.Email);
+                throw new AlreadyExistsException($"User by {nameof(user.Email)} is exists");
             }
-            string encodedPassword = _passwordEncoderService.Encode(user.Password);
-            user.Password = encodedPassword;
-            UsersModel createdUser = UsersMapper.ToModel(_usersService.Create(user));
-            TokensModel tokens = _jwtService.GenerateTokens(createdUser);
-            _bearerService.SetAccessToken(tokens.AccessToken);
-            _cookieService.Set(_refreshKey, tokens.RefreshToken);
-            return createdUser;
+            catch (NotFoundException)
+            {
+                string encodedPassword = _passwordEncoderService.Encode(user.Password);
+                user.Password = encodedPassword;
+                UsersModel createdUser = UsersMapper.ToModel(_usersService.Create(user));
+                TokensModel tokens = _jwtService.GenerateTokens(createdUser);
+                _bearerService.SetAccessToken(tokens.AccessToken);
+                _cookieService.Set(_refreshKey, tokens.RefreshToken);
+                return createdUser;
+            }
         }
 
-        public UsersModel Login(UsersEntity user)
+        public UsersModel Login(LoginModel user)
         {
-            UsersEntity? candidate = _usersService.GetByEmail(user.Email);
-            if (candidate == null)
-            {
-                throw new NotFountException($"User with ${nameof(user.Email)} == {user.Email} not founded");
-            }
-
+            UsersEntity candidate = _usersService.GetByEmail(user.Email);
             bool isCorrectPassword = _passwordEncoderService.Verify(user.Password, candidate.Password);
-
             if (isCorrectPassword == false)
             {
                 throw new PasswordException("Password invalid");
@@ -63,7 +60,7 @@ namespace SorokChatServer.Services
 
             TokensModel tokens = _jwtService.GenerateTokens(candidate);
             _bearerService.SetAccessToken(tokens.AccessToken);
-            _cookieService.Set( _refreshKey, tokens.RefreshToken);
+            _cookieService.Set(_refreshKey, tokens.RefreshToken);
             UsersModel loginedUser = UsersMapper.ToModel(candidate);
             return loginedUser;
         }
