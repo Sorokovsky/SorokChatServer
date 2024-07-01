@@ -1,4 +1,4 @@
-using Infrastructure.Interfaces;
+using Authorization.Interfaces;
 using Authorization.Services;
 
 var builder = WebApplication.CreateBuilder(args);

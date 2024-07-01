@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Interfaces
+﻿namespace Authorization.Interfaces
 {
     public interface IAuthorizationService
     {
