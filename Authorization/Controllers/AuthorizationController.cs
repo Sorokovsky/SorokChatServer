@@ -1,4 +1,4 @@
-﻿using Infrastructure.Interfaces;
+﻿using Authorization.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SorokChatServer.Controllers
