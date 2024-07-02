@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Interfaces
+﻿namespace Infrastructure.Interfaces
 {
     public interface ICookieService
     {

@@ -12,8 +12,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A402F1B0-6B6D-4490-A76F-875EB6B27391}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
+		create_migration.sh = create_migration.sh
 		compose.yml = compose.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{8020C0AB-34A5-44E5-893A-03BC945A86CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +36,10 @@ Global
 		{6E8020D6-FBDC-4C7F-A95E-9BA5654F9B8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E8020D6-FBDC-4C7F-A95E-9BA5654F9B8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E8020D6-FBDC-4C7F-A95E-9BA5654F9B8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8020C0AB-34A5-44E5-893A-03BC945A86CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8020C0AB-34A5-44E5-893A-03BC945A86CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8020C0AB-34A5-44E5-893A-03BC945A86CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8020C0AB-34A5-44E5-893A-03BC945A86CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
