@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SorokChatServer.Controllers
 {
-    [Route("api/authorization")]
+    [Route("authorization")]
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
