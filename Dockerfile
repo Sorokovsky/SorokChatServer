@@ -22,7 +22,10 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 # Виставляємо порт
-EXPOSE 80
+EXPOSE 5000
+
+# Встановлюємо змінну середовища
+ENV ASPNETCORE_URLS=http://*:5000
 
 # Запускаємо додаток
 ENTRYPOINT ["dotnet", "SorokChatServer.dll"]

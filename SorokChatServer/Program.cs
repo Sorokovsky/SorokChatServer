@@ -1,13 +1,16 @@
 using Authorization.Interfaces;
 using Authorization.Services;
+using Infrastructure.Interfaces;
+using Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IAuthorizationService, AuthorizatonService>();
+builder.Services.AddScoped<ICookieService, CookieService>();
 
 var app = builder.Build();
 
