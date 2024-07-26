@@ -1,18 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersRepositoryService } from './users-repository.service';
+import { UsersRepository } from '../../../abstractions/users-repository.interface';
+import { UsersRepositoryModule } from './users-repository.module';
 
 describe('UsersRepositoryService', () => {
-  let service: UsersRepositoryService;
+  let service: UsersRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersRepositoryService],
+      imports: [UsersRepositoryModule]
     }).compile();
 
-    service = module.get<UsersRepositoryService>(UsersRepositoryService);
+    service = module.get<UsersRepository>(UsersRepositoryService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('List must be ampty', async () => {
+    const result = await service.findAll();
+    expect(result).toEqual([]);
   });
 });

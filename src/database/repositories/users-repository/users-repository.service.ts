@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersRepository } from 'src/abstractions/users-repository.abstracts';
+import { UsersRepository } from 'src/abstractions/users-repository.interface';
 import { CreateUserDto } from 'src/contracts/user/create.dto';
 import { UpdateUserDto } from 'src/contracts/user/update.dto';
-import { User } from 'src/database/entities/user.entity';
-import { UserAlreadyExistsException } from 'src/exceptions/user/already-exists.exception';
+import { User } from "../../entities/user.entity";
+import { UserAlreadyExistsException } from '../../../exceptions/user/already-exists.exception';
 import { Repository } from 'typeorm';
 import { UserNotFoundException } from '../../../exceptions/user/not-found.exception';
 
