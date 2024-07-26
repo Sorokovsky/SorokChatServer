@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmConfiguration } from './config/typeorm.config';
 import { UsersRepositoryModule } from './database/repositories/users-repository/users-repository.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { UsersRepositoryModule } from './database/repositories/users-repository/
       inject: [ConfigService],
       useFactory: getTypeOrmConfiguration
     }),
-    UsersRepositoryModule
+    UsersRepositoryModule,
+    FilesModule
   ]
 })
 export class AppModule {};
