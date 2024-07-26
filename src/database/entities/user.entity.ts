@@ -18,22 +18,28 @@ export class User extends Base {
     @Column()
     password: string;
 
+    @ApiProperty({default: ""})
+    @IsString()
+    @IsOptional()
+    @Column({name: 'avatar_path', default: ""})
+    avatarPath?: string;
+
     @ApiProperty({default: "Sorokovsky"})
     @IsString()
     @IsOptional()
-    @Column()
+    @Column({default: ""})
     surname?: string;
 
     @ApiProperty({default: "Andrey"})
     @IsString()
     @IsOptional()
-    @Column()
+    @Column({default: ""})
     name?: string;
 
     @ApiProperty({default: "Ivanovich"})
     @IsString()
     @IsOptional()
-    @Column({name: "middle_name"})
+    @Column({name: "middle_name", default: ""})
     middleName?: string;
 
     @OneToMany(() => Message, message => message.author)
