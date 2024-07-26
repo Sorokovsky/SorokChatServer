@@ -1,5 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { Channel } from 'src/database/entities/channel.entity';
+import { Message } from 'src/database/entities/message.entity';
 import { User } from 'src/database/entities/user.entity';
 export const getTypeOrmConfiguration = (configService: ConfigService): TypeOrmModuleOptions => {
     return {
@@ -9,7 +11,7 @@ export const getTypeOrmConfiguration = (configService: ConfigService): TypeOrmMo
         username: configService.get("DB_USER"),
         password: configService.get("DB_PASSWORD"),
         database: configService.get("DB_NAME"),
-        entities: [User],
+        entities: [User, Message, Channel],
         synchronize: true,
     };
 };
