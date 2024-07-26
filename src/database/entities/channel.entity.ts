@@ -24,7 +24,15 @@ export class Channel extends Base {
     messages: Message[];
 
     @ManyToMany(() => User, user => user.channels)
-    @JoinColumn({name: "user_id"})
-    @JoinTable()
-    members: User[]
+    @JoinTable({
+        joinColumn: {
+            name: "member_id",
+            referencedColumnName: "id",
+        },
+        inverseJoinColumn: {
+            name: 'channel_id',
+            referencedColumnName: "id",
+        },
+    })
+    members: User[];
 };

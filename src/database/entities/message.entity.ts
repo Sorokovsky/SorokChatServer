@@ -18,7 +18,6 @@ export class Message extends Base {
     author: User;
 
     @ManyToOne(() => Channel, channel => channel.messages)
-    @JoinColumn({name: 'channel_id'})
-    @JoinTable()
+    @JoinColumn({name: 'channel_id', referencedColumnName: "id",})
     channel: Channel;
 };

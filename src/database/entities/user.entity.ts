@@ -39,10 +39,9 @@ export class User extends Base {
     @OneToMany(() => Message, message => message.author)
     @JoinColumn({name: "message_id"})
     @JoinTable()
-    messages: Message[]
+    messages: Message[];
 
     @ManyToMany(() => Channel, channel => channel.members)
-    @JoinColumn({name: "channel_id"})
-    @JoinTable()
-    channels: Channel[]
+    @JoinColumn({name: "channel_id", referencedColumnName: 'id'})
+    channels: Channel[];
 };
