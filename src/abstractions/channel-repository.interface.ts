@@ -1,3 +1,4 @@
+import { UpdateChannelDto } from "src/contracts/channel/update.dto";
 import { Channel } from "src/database/entities/channel.entity";
 import { Message } from "src/database/entities/message.entity";
 import { User } from "src/database/entities/user.entity";
@@ -11,4 +12,8 @@ export interface ChannelRepositotry {
     findByMessageId(messageId: Message['id']): Promise<Channel>;
 
     create(newChannel: CreateChannelDto): Promise<Channel>;
+
+    update(id: Channel['id'], newChannel: UpdateChannelDto): Promise<Channel>;
+
+    delete(id: Channel['id']): Promise<Channel>;
 };
