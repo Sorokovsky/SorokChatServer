@@ -6,6 +6,7 @@ import { UsersRepositoryModule } from './database/repositories/users-repository/
 import { FilesModule } from './files/files.module';
 import { ChannelsRepositoryModule } from './database/repositories/channels-repository/channels-repository.module';
 import { MessagesRepositoryModule } from './database/repositories/messages-repository/messages-repository.module';
+import { UsersModule } from './core/users/users.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { MessagesRepositoryModule } from './database/repositories/messages-repos
     UsersRepositoryModule,
     FilesModule,
     ChannelsRepositoryModule,
-    MessagesRepositoryModule
+    MessagesRepositoryModule,
+    UsersModule
   ]
 })
 export class AppModule {};
