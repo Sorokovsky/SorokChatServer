@@ -1,8 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Channel } from 'src/database/entities/channel.entity';
-import { Message } from 'src/database/entities/message.entity';
-import { User } from 'src/database/entities/user.entity';
+import { Channel } from '../database/entities/channel.entity';
+import { Message } from '../database/entities/message.entity';
+import { User } from '../database/entities/user.entity';
 export const getTypeOrmConfiguration = (configService: ConfigService): TypeOrmModuleOptions => {
     return {
         type: 'postgres',
