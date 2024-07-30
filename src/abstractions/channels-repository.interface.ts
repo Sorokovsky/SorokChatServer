@@ -4,12 +4,12 @@ import { Message } from "src/database/entities/message.entity";
 import { User } from "src/database/entities/user.entity";
 import { CreateChannelDto } from '../contracts/channel/create.dto';
 
-export interface ChannelRepositotry {
-    findById(id: Channel['id']): Promise<Channel>;
+export interface ChannelsRepositotry {
+    tryFindById(id: Channel['id']): Promise<Channel | null>;
 
     findByUserId(userId: User['id']): Promise<Channel[]>;
 
-    findByMessageId(messageId: Message['id']): Promise<Channel>;
+    tryFindByMessageId(messageId: Message['id']): Promise<Channel | null>;
 
     create(newChannel: CreateChannelDto): Promise<Channel>;
 

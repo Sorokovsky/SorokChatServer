@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmConfiguration } from './config/typeorm.config';
 import { UsersRepositoryModule } from './database/repositories/users-repository/users-repository.module';
 import { FilesModule } from './files/files.module';
+import { ChannelsRepositoryModule } from './database/repositories/channels-repository/channels-repository.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { FilesModule } from './files/files.module';
       useFactory: getTypeOrmConfiguration
     }),
     UsersRepositoryModule,
-    FilesModule
+    FilesModule,
+    ChannelsRepositoryModule
   ]
 })
 export class AppModule {};
