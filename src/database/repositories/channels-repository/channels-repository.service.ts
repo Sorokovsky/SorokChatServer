@@ -7,6 +7,7 @@ import { User } from 'src/database/entities/user.entity';
 import { Repository } from 'typeorm';
 import { ChannelsRepositotry } from '../../../abstractions/channels-repository.interface';
 import { Channel } from '../../entities/channel.entity';
+import { ChannelNotFoundException } from '../../../exceptions/channel/not-found.exception';
 
 @Injectable()
 export class ChannelsRepositoryService implements ChannelsRepositotry {
@@ -27,15 +28,23 @@ export class ChannelsRepositoryService implements ChannelsRepositotry {
     }
 
     async create(newChannel: CreateChannelDto): Promise<Channel> {
-        throw new Error('Method not implemented.');
+        const created = this.channelsRepository.create(newChannel);
+        await this.channelsRepository.save(created);
+        return created;
     }
 
     async update(id: Channel['id'], newChannel: UpdateChannelDto): Promise<Channel> {
-        throw new Error('Method not implemented.');
+        const candidate = await this.tryFindById(id);
+        if (candidate === null) throw new ChannelNotFoundException('id', id);
+        await this.channelsRepository.update({ id }, newChannel);
+        return this.tryFindById(id);
     }
 
     async delete(id: Channel['id']): Promise<Channel> {
-        throw new Error('Method not implemented.');
+        const candidate = await this.tryFindById(id);
+        if (candidate === null) throw new ChannelNotFoundException('id', id);
+        await this.channelsRepository.delete({ id });
+        return candidate;
     }
     
 };
