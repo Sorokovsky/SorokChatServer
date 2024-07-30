@@ -16,11 +16,13 @@ export class FilesService implements IFilesService {
         return nodePath.join(folder, file.originalname);
     }
 
-    async delete(path: string): Promise<void> {
+    async delete(deletePath: string): Promise<void> {
+        const path: string = nodePath.join(FilesService.STATIC_FOLDER, deletePath);
         const isExists = await this.isExists(path);
+        
         if (isExists) {
             const stats = await stat(path);
-            if (stats.isDirectory()) await rmdir(path);
+            if (stats.isDirectory()) await rmdir(path, { recursive: true });
             else if (stats.isFile()) await rm(path, { recursive: true });
         }
     }
