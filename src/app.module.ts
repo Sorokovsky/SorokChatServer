@@ -5,6 +5,7 @@ import { getTypeOrmConfiguration } from './config/typeorm.config';
 import { UsersRepositoryModule } from './database/repositories/users-repository/users-repository.module';
 import { FilesModule } from './files/files.module';
 import { ChannelsRepositoryModule } from './database/repositories/channels-repository/channels-repository.module';
+import { MessagesRepositoryModule } from './database/repositories/messages-repository/messages-repository.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { ChannelsRepositoryModule } from './database/repositories/channels-repos
     }),
     UsersRepositoryModule,
     FilesModule,
-    ChannelsRepositoryModule
+    ChannelsRepositoryModule,
+    MessagesRepositoryModule
   ]
 })
 export class AppModule {};
