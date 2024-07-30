@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as nodePath from 'path';
-import { stat, mkdir, writeFile, rm, rmdir } from "fs/promises";
+import { stat, mkdir, writeFile, rm } from "fs/promises";
 import { IFilesService } from 'src/abstractions/files.interface';
 
 @Injectable()
@@ -21,9 +21,7 @@ export class FilesService implements IFilesService {
         const isExists = await this.isExists(path);
         
         if (isExists) {
-            const stats = await stat(path);
-            if (stats.isDirectory()) await rmdir(path, { recursive: true });
-            else if (stats.isFile()) await rm(path, { recursive: true });
+            await rm(path, { recursive: true });
         }
     }
 

@@ -1,7 +1,7 @@
 import { Test } from "@nestjs/testing";
 import { FilesService } from './files.service';
 import * as nodePath from "path";
-import { readdir } from "fs/promises";
+import { readdir, writeFile } from "fs/promises";
 import { fakeFile, tryRemoveFolder } from "../utils/fakes";
 import { mkdir } from "fs/promises";
 
@@ -37,7 +37,21 @@ describe("Files service", () => {
             await filesService.delete(folder);
             const items = await readdir(FilesService.STATIC_FOLDER);
             const hasFolder = items.includes(folder);            
-            expect(hasFolder).toBeFalsy();            
+            expect(hasFolder).toBeFalsy();      
+        });
+    });
+
+    describe("delete file", () => {
+        it("should delete the file", async () => {
+            const path: string = nodePath.join(FilesService.STATIC_FOLDER, folder);
+            const filePath: string = nodePath.join(path, fakeFile.originalname);
+            await mkdir(path, { recursive: true });
+            await writeFile(filePath, fakeFile.buffer);
+            await filesService.delete(nodePath.join(folder, fakeFile.originalname));
+            const items = await readdir(path);
+            
+            const hasFile = items.includes(fakeFile.originalname);            
+            expect(hasFile).toBeFalsy();
         });
     });
 });
