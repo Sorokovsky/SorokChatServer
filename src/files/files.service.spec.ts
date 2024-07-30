@@ -49,7 +49,6 @@ describe("Files service", () => {
             await writeFile(filePath, fakeFile.buffer);
             await filesService.delete(nodePath.join(folder, fakeFile.originalname));
             const items = await readdir(path);
-            
             const hasFile = items.includes(fakeFile.originalname);            
             expect(hasFile).toBeFalsy();
         });
