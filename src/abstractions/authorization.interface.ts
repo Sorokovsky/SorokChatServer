@@ -11,5 +11,5 @@ export interface IAuthorizationService {
 
     isAuthenticated(): Promise<boolean>;
 
-    authenticate(accessToken: string, refreshToken: string): Promise<User>;
+    authenticate(id: User['id']): Promise<User>;
 };

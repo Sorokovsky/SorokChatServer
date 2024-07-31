@@ -12,6 +12,7 @@ import { JwtModule } from "@nestjs/jwt";
 import { getJwtConfiguration } from './config/jwt.config';
 import { PasswordModule } from './core/password/password.module';
 import { AuthorizationModule } from './core/authorization/authorization.module';
+import { BearerStorageModule } from './bearer-storage/bearer-storage.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AuthorizationModule } from './core/authorization/authorization.module';
     }),
     PasswordModule,
     AuthorizationModule,
+    BearerStorageModule,
   ]
 })
 export class AppModule {};

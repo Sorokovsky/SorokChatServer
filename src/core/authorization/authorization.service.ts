@@ -10,7 +10,7 @@ import { UsersService } from '../users/users.service';
 export class AuthorizationService implements IAuthorizationService {
     constructor(
         private readonly userService: UsersService,
-        private readonly tokensService: TokensService
+        private readonly tokensService: TokensService,
     ) { };
     
     registration(registerDto: RegistrationDto): Promise<User> {
@@ -29,7 +29,7 @@ export class AuthorizationService implements IAuthorizationService {
         throw new Error('Method not implemented.');
     }
 
-    authenticate(accessToken: string, refreshToken: string): Promise<User> {
+    authenticate(id: User['id']): Promise<User> {
         throw new Error('Method not implemented.');
     }
 ;
