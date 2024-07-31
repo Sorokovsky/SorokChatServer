@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AsyncLocalStorage } from 'async_hooks';
-import { Context } from './utils/context-storage';
+import * as cookieParser from "cookie-parser";
 
 const port = process.env.PORT || 5000;
 export const storage = new AsyncLocalStorage();
@@ -18,6 +18,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
+  app.use(cookieParser());
   app.setGlobalPrefix("api");
 
   await app.listen(port);

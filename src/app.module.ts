@@ -14,6 +14,7 @@ import { PasswordModule } from './core/password/password.module';
 import { AuthorizationModule } from './core/authorization/authorization.module';
 import { BearerStorageModule } from './bearer-storage/bearer-storage.module';
 import { ContextMiddleware } from './middlewares/context.middleware';
+import { CookieStorageModule } from './cookie-storage/cookie-storage.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ContextMiddleware } from './middlewares/context.middleware';
     PasswordModule,
     AuthorizationModule,
     BearerStorageModule,
+    CookieStorageModule,
   ]
 })
 export class AppModule implements NestModule {
