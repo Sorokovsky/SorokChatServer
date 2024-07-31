@@ -7,6 +7,9 @@ import { FilesModule } from './files/files.module';
 import { ChannelsRepositoryModule } from './database/repositories/channels-repository/channels-repository.module';
 import { MessagesRepositoryModule } from './database/repositories/messages-repository/messages-repository.module';
 import { UsersModule } from './core/users/users.module';
+import { TokensModule } from './tokens/tokens.module';
+import { JwtModule } from "@nestjs/jwt";
+import { getJwtConfiguration } from './config/jwt.config';
 
 @Module({
   imports: [
@@ -20,7 +23,13 @@ import { UsersModule } from './core/users/users.module';
     FilesModule,
     ChannelsRepositoryModule,
     MessagesRepositoryModule,
-    UsersModule
+    UsersModule,
+    TokensModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getJwtConfiguration
+    }),
   ]
 })
 export class AppModule {};
