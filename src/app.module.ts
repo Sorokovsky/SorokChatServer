@@ -10,6 +10,8 @@ import { UsersModule } from './core/users/users.module';
 import { TokensModule } from './tokens/tokens.module';
 import { JwtModule } from "@nestjs/jwt";
 import { getJwtConfiguration } from './config/jwt.config';
+import { PasswordModule } from './core/password/password.module';
+import { AuthorizationModule } from './core/authorization/authorization.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { getJwtConfiguration } from './config/jwt.config';
       inject: [ConfigService],
       useFactory: getJwtConfiguration
     }),
+    PasswordModule,
+    AuthorizationModule,
   ]
 })
 export class AppModule {};
