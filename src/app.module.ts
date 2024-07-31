@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmConfiguration } from './config/typeorm.config';
@@ -13,6 +13,7 @@ import { getJwtConfiguration } from './config/jwt.config';
 import { PasswordModule } from './core/password/password.module';
 import { AuthorizationModule } from './core/authorization/authorization.module';
 import { BearerStorageModule } from './bearer-storage/bearer-storage.module';
+import { ContextMiddleware } from './middlewares/context.middleware';
 
 @Module({
   imports: [
@@ -38,4 +39,8 @@ import { BearerStorageModule } from './bearer-storage/bearer-storage.module';
     BearerStorageModule,
   ]
 })
-export class AppModule {};
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(new ContextMiddleware().use);
+  }
+};
