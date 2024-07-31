@@ -1,8 +1,9 @@
+import { Request, Response } from "express";
 import { storage } from "../main";
 
 export type Context = {
-    request: Express.Request;
-    response: Express.Response;
+    request: Request;
+    response: Response;
 };
 export const getContext = async (): Promise<Context> => {
     return await storage.getStore() as Promise<Context>;
