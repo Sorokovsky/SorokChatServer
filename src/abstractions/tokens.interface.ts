@@ -3,5 +3,5 @@ export interface ITokens {
 
     generateRefreshToken<T>(payload: T): Promise<string>;
 
-    extractFromToken<T>(token: T): Promise<number>;
+    extractFromToken<T extends object>(token: string): Promise<T>;
 };
