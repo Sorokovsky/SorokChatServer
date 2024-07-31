@@ -15,6 +15,10 @@ export class UsersService implements IUsersService {
         return await this.repository.tryFindById(id);
     }
 
+    async tryFindByEmail(email: User['email']): Promise<User | null> {
+        return await this.repository.tryFindByEmail(email);
+    }
+
     async findAll(): Promise<User[]> {
         return await this.findAll();
     }

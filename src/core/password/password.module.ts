@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [ConfigModule],
-  providers: [PasswordService]
+  providers: [PasswordService],
+  exports: [PasswordService]
 })
 export class PasswordModule { };

@@ -5,6 +5,8 @@ import { User } from "src/database/entities/user.entity";
 export interface IUsersService {
     tryFindById(id: User['id']): Promise<User | null>;
 
+    tryFindByEmail(email: User['email']): Promise<User | null>;
+
     findAll(): Promise<User[]>;
 
     create(newUser: CreateUserDto): Promise<User>;
