@@ -9,6 +9,7 @@ import { PasswordModule } from '../password/password.module';
 @Global()
 @Module({
   imports: [UsersModule, TokensModule, CookieStorageModule, BearerStorageModule, PasswordModule],
-  providers: [AuthorizationService]
+  providers: [AuthorizationService],
+  exports: [AuthorizationService]
 })
 export class AuthorizationModule { };

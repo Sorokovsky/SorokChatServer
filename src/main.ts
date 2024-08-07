@@ -9,17 +9,17 @@ export const storage = new AsyncLocalStorage();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(cookieParser());
+  app.setGlobalPrefix("api");
 
   const config = new DocumentBuilder()
     .setTitle('SorokChat')
     .setDescription('Sorok Chat the best messanger ever!')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
-
-  app.use(cookieParser());
-  app.setGlobalPrefix("api");
 
   await app.listen(port);
   
