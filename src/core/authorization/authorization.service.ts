@@ -9,6 +9,7 @@ import { BearerStorageService } from '../../bearer-storage/bearer-storage.servic
 import { CookieStorageService } from 'src/cookie-storage/cookie-storage.service';
 import { PasswordService } from '../password/password.service';
 import { UserNotFoundException } from '../../exceptions/user/not-found.exception';
+import { getContext } from '../../utils/context-storage';
 
 type IdPayload = {
     id: User['id'];
@@ -69,7 +70,11 @@ export class AuthorizationService implements IAuthorizationService {
     }
 
     async authenticate(id: User['id']): Promise<void> {
+        const { request } = await getContext();
         const payload: IdPayload = { id };
+        const user: User | null = await this.userService.tryFindById(id);
+        if (user === null) throw new UserNotFoundException('id', id);
+        request["user"] = user;
         const accessToken = await this.tokensService.generateAccessToken(payload);
         const refreshToken = await this.tokensService.generateRefreshToken(payload);
         await this.bearerStorage.setToken(accessToken);

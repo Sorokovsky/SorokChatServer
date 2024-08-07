@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/decorators/auth.decorator';
 import { UsersService } from './users.service';
@@ -11,7 +11,7 @@ export class UsersController {
 
   @Auth()
   @Get(":id")
-  public getById(@Param('id') id: number) {
+  public getById(@Param('id', new ParseIntPipe()) id: number) {
     return this.usersService.tryFindById(id);
   }
 };
