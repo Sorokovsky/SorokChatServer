@@ -6,7 +6,7 @@ namespace SorokChatServer.Application.Database;
 public class SorokChatDatabaseContext : DbContext
 {
     private readonly IConfiguration _configuration;
-
+    
     public SorokChatDatabaseContext(IConfiguration configuration)
     {
         _configuration = configuration;
