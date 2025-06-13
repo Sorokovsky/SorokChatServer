@@ -4,24 +4,29 @@ namespace SorokChatServer.Application.Database.Entities;
 
 public class UserEntity : BaseEntity
 {
-    public UserEntity(long id, DateTime createdAt, DateTime updatedAt, FullName fullName, Email email, Password password, AvatarPath avatarPath) 
-        : base(id, createdAt, updatedAt)
+    public UserEntity(FullName fullName, Email email, Password password, AvatarPath avatarPath)
     {
-        Email = email;
-        Password = password;
-        FullName = fullName;
-        AvatarPath = avatarPath;
+        FirstName = fullName.FirstName;
+        LastName = fullName.LastName;
+        MiddleName = fullName.MiddleName;
+        Email = email.Value;
+        Password = password.Value;
+        AvatarPath = avatarPath.Value;
     }
 
-    public UserEntity()
+    private UserEntity()
     {
     }
-    
-    public FullName FullName { get; set; } 
-    
-    public Email Email { get; set; }
-    
-    public Password Password { get; set; }
-    
-    public AvatarPath AvatarPath { get; set; }
+
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+
+    public string MiddleName { get; set; }
+
+    public string Email { get; set; }
+
+    public string Password { get; set; }
+
+    public string AvatarPath { get; set; }
 }
