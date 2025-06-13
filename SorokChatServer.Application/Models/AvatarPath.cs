@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace SorokChatServer.Application.Model;
+namespace SorokChatServer.Application.Models;
 
 public class AvatarPath : ValueObject
 {
@@ -20,7 +20,10 @@ public class AvatarPath : ValueObject
         return Result.Success<AvatarPath, string>(new AvatarPath(value));
     }
 
-    public static AvatarPath GetDefault() => new AvatarPath(Default);
+    public static AvatarPath GetDefault()
+    {
+        return new AvatarPath(Default);
+    }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

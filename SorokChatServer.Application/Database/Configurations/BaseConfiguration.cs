@@ -4,7 +4,7 @@ using SorokChatServer.Application.Database.Entities;
 
 namespace SorokChatServer.Application.Database.Configurations;
 
-public abstract class BaseConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity 
+public abstract class BaseConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity
 {
     public virtual void Configure(EntityTypeBuilder<T> builder)
     {
