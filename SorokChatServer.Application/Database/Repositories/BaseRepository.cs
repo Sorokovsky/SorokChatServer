@@ -53,9 +53,35 @@ public abstract class BaseRepository<T> : IRepository<T> where T : BaseEntity
     {
         var candidateResult = await GetOne(predicate, cancellationToken);
         if (candidateResult.IsFailure) return candidateResult;
-        throw new NotImplementedException();
+        var mergedEntity = Merge(candidateResult.Value, updated);
+        var entity = _set.Update(mergedEntity).Entity;
+        await _context.SaveChangesAsync(cancellationToken);
+        return Result.Success<T, string>(entity);
     }
 
-    public abstract Task<Result<T, string>> Delete(Expression<Func<T, bool>> predicate,
-        CancellationToken cancellationToken);
+    public async Task<Result<T, string>> Delete(Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken)
+    {
+        var candidateResult = await GetOne(predicate, cancellationToken);
+        if (candidateResult.IsFailure) return candidateResult;
+        await _set.Where(predicate).ExecuteDeleteAsync(cancellationToken);
+        return Result.Success<T, string>(candidateResult.Value);
+    }
+
+    private static T Merge(T oldItem, T newItem)
+    {
+        var baseFieldsName = typeof(BaseEntity).GetProperties().Select(x => x.Name).ToHashSet();
+        var fields = typeof(T).GetProperties().ToList();
+        foreach (var field in fields)
+        {
+            if (baseFieldsName.Contains(field.Name)) continue;
+            var oldValue = field.GetValue(oldItem);
+            var newValue = field.GetValue(newItem);
+            var currentValue = newValue ?? oldValue;
+            field.SetValue(oldItem, currentValue);
+        }
+
+        oldItem.UpdatedAt = DateTime.UtcNow;
+        return oldItem;
+    }
 }
