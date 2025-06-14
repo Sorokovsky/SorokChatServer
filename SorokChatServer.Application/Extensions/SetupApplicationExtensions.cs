@@ -4,7 +4,7 @@ using SorokChatServer.Application.Services;
 
 namespace SorokChatServer.Application.Extensions;
 
-public static class BuilderExtensions
+public static class SetupApplicationExtensions
 {
     public static void AddRepositories(this IServiceCollection services)
     {

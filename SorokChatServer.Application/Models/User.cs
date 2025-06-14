@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using SorokChatServer.Application.Contracts.Users;
 using SorokChatServer.Application.Database.Entities;
 
 namespace SorokChatServer.Application.Models;
@@ -23,6 +24,20 @@ public class User : Base
 
     public AvatarPath AvatarPath { get; }
 
+    public GetUser ToGetUser()
+    {
+        return new GetUser(
+            Id,
+            CreatedAt,
+            UpdatedAt,
+            FullName.FirstName,
+            FullName.LastName,
+            FullName.MiddleName,
+            Email.Value,
+            AvatarPath.Value
+        );
+    }
+
     public static Result<User, string> Create(
         long id,
         DateTime createdAt,
@@ -46,6 +61,21 @@ public class User : Base
         var user = new User(id, createdAt, updatedAt, fullNameResult.Value, emailResult.Value, passwordResult.Value,
             avatarPathResult.Value);
         return Result.Success<User, string>(user);
+    }
+
+    public static Result<User, string> Create(CreateUser createUser)
+    {
+        return Create(
+            0,
+            DateTime.UtcNow,
+            DateTime.UtcNow,
+            createUser.FirstName,
+            createUser.LastName,
+            createUser.MiddleName,
+            createUser.Email,
+            createUser.Password,
+            createUser.AvatarPath
+        );
     }
 
     public UserEntity ToEntity()

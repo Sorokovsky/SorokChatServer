@@ -1,4 +1,4 @@
-﻿namespace SorokChatServer.Application.Contracts;
+﻿namespace SorokChatServer.Application.Contracts.Users;
 
 public record GetUser(
     long Id,
