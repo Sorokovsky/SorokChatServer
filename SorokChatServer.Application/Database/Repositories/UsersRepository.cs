@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using SorokChatServer.Application.Database.Entities;
+using SorokChatServer.Application.Interfaces;
 
 namespace SorokChatServer.Application.Database.Repositories;
 
-public class UsersRepository : BaseRepository<UserEntity>
+public class UsersRepository : BaseRepository<UserEntity>, IUsersRepository
 {
     public UsersRepository(SorokChatDatabaseContext context) : base(context)
     {
