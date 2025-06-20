@@ -18,12 +18,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+      <ProjectReference Include="..\Database\Database.csproj" />
+      <ProjectReference Include="..\DomainLogic\DomainLogic.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Database\Database.csproj" />
-      <ProjectReference Include="..\DomainLogic\DomainLogic.csproj" />
+      <Folder Include="Controllers\" />
     </ItemGroup>
 
 </Project>
