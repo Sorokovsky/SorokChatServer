@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorokChatServer.Application", "SorokChatServer.Application\SorokChatServer.Application.csproj", "{D45770BE-DA46-40AF-8380-EDFBCE1BD3F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21C8EB09-9B86-41EF-AAAA-3EC32EA1D5A9}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorokChatServer.Infrastructure", "SorokChatServer.Infrastructure\SorokChatServer.Infrastructure.csproj", "{3B4D31C1-1578-47C8-BD12-E2DBD2033B15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorokChatServer.Core", "SorokChatServer.Core\SorokChatServer.Core.csproj", "{5069AD8F-19D1-4034-BA19-48B689904406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorokChatServer.Database", "SorokChatServer.Database\SorokChatServer.Database.csproj", "{C53B5F92-AA4C-47B3-8737-8A098DBB0404}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D45770BE-DA46-40AF-8380-EDFBCE1BD3F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45770BE-DA46-40AF-8380-EDFBCE1BD3F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45770BE-DA46-40AF-8380-EDFBCE1BD3F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45770BE-DA46-40AF-8380-EDFBCE1BD3F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B4D31C1-1578-47C8-BD12-E2DBD2033B15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B4D31C1-1578-47C8-BD12-E2DBD2033B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B4D31C1-1578-47C8-BD12-E2DBD2033B15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B4D31C1-1578-47C8-BD12-E2DBD2033B15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5069AD8F-19D1-4034-BA19-48B689904406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5069AD8F-19D1-4034-BA19-48B689904406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5069AD8F-19D1-4034-BA19-48B689904406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5069AD8F-19D1-4034-BA19-48B689904406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C53B5F92-AA4C-47B3-8737-8A098DBB0404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C53B5F92-AA4C-47B3-8737-8A098DBB0404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C53B5F92-AA4C-47B3-8737-8A098DBB0404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C53B5F92-AA4C-47B3-8737-8A098DBB0404}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
