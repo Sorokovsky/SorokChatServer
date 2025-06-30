@@ -1,6 +1,6 @@
 ﻿using SorokChatServer.Infrastructure.ValueObjects;
 
-namespace SorokChatServer.Database.Entities;
+namespace SorokChatServer.Infrastructure.Entities;
 
 public class UserEntity : BaseEntity
 {

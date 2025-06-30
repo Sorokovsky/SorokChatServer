@@ -1,4 +1,4 @@
-﻿namespace SorokChatServer.Database.Entities;
+﻿namespace SorokChatServer.Infrastructure.Entities;
 
 public abstract class BaseEntity
 {

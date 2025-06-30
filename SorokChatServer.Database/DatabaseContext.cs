@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SorokChatServer.Database.Entities;
+using SorokChatServer.Infrastructure.Entities;
 
 namespace SorokChatServer.Database;
 
