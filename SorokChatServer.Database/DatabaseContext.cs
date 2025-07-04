@@ -21,4 +21,9 @@ public class DatabaseContext : DbContext
             .UseNpgsql(_configuration.GetConnectionString(nameof(DatabaseContext)))
             .UseSnakeCaseNamingConvention();
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(DatabaseContext).Assembly);
+    }
 }

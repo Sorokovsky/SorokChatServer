@@ -4,9 +4,12 @@ namespace SorokChatServer.Infrastructure.Entities;
 
 public class UserEntity : BaseEntity
 {
-    public UserEntity(long id, DateTime createdAt, DateTime updatedAt, Name name) : base(id, createdAt, updatedAt)
+    public UserEntity(long id, DateTime createdAt, DateTime updatedAt, Name name, Email email, Password password)
+        : base(id, createdAt, updatedAt)
     {
         Name = name;
+        Email = email;
+        Password = password;
     }
 
     public UserEntity()
@@ -14,4 +17,8 @@ public class UserEntity : BaseEntity
     }
 
     public Name Name { get; set; } = null!;
+
+    public Email Email { get; set; } = null!;
+
+    public Password Password { get; set; } = null!;
 }
