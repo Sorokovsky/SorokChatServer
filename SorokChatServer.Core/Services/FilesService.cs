@@ -18,9 +18,9 @@ public class FilesService : IFilesService
         CancellationToken cancellationToken)
     {
         var extension = Path.GetExtension(file.FileName);
-        var fullFileName = $"{fileName}.{extension}";
+        var fullFileName = $"{fileName}{extension}";
         var path = Path.Combine(_basePath, folder, fullFileName);
-        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), folder);
+        var folderPath = Path.Combine(_basePath, folder);
         if (Directory.Exists(folderPath) is false) Directory.CreateDirectory(folderPath);
 
         await using var fileStream = File.Open(path, FileMode.Create);

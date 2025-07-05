@@ -2,7 +2,6 @@
 using SorokChatServer.Core.Services;
 using SorokChatServer.Database;
 using SorokChatServer.Database.Repositories;
-using SorokChatServer.Infrastructure.Filters;
 using SorokChatServer.Infrastructure.Interfaces;
 using SorokChatServer.Infrastructure.Mapping;
 
@@ -30,21 +29,10 @@ public static class StartupExtensions
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-
-            c.OperationFilter<FileUploadOperationFilter>();
-
             c.MapType<IFormFile>(() => new OpenApiSchema
             {
                 Type = "string",
                 Format = "binary"
-            });
-
-            c.AddSecurityDefinition("multipart/form-data", new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT"
             });
         });
     }

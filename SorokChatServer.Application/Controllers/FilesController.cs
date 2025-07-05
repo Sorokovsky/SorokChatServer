@@ -16,10 +16,11 @@ public class FilesController : ControllerBase
 
     [HttpPost("{folder}")]
     [Consumes("multipart/form-data")]
-    public async Task<IActionResult> Load([FromForm(Name = "file")] IFormFile file, [FromRoute] string folder,
+    public async Task<IActionResult> Load(IFormFile file, [FromRoute] string folder,
         CancellationToken cancellationToken)
     {
-        var path = await _filesService.LoadAsync(file, folder, Path.GetFileName(file.FileName), cancellationToken);
+        var path = await _filesService.LoadAsync(file, folder, Path.GetFileNameWithoutExtension(file.FileName),
+            cancellationToken);
         return await Task.FromResult(Ok(path));
     }
 }
