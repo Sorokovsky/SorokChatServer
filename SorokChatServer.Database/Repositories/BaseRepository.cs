@@ -44,11 +44,18 @@ public abstract class BaseRepository<T> : IRepository<T> where T : BaseEntity
 
     public async Task<Result<T>> GetByAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
     {
-        var candidate = await _items
-            .AsNoTracking()
-            .FirstOrDefaultAsync(predicate, cancellationToken);
-        if (candidate is null) return Result.Failure<T>($"{nameof(T)} not found.");
-        return Result.Success(candidate);
+        try
+        {
+            var candidate = await _items
+                .AsNoTracking()
+                .FirstOrDefaultAsync(predicate, cancellationToken);
+            if (candidate is null) return Result.Failure<T>($"{nameof(T)} not found.");
+            return Result.Success(candidate);
+        }
+        catch (Exception exception)
+        {
+            return Result.Failure<T>(exception.Message);
+        }
     }
 
     public async Task<List<T>> GetManyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
