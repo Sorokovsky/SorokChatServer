@@ -2,6 +2,8 @@
   server:
     image: sorokchat-server
     container_name: sorokchat-server
+    depends_on:
+      - database
     build:
       context: .
       dockerfile: SorokChatServer.Application/Dockerfile
@@ -9,4 +11,15 @@
     ports:
       - "8080:8080"
       - "8081:8081"
-
+  database:
+    image: postgres:latest
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: sorokchat
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5430:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/pgdata

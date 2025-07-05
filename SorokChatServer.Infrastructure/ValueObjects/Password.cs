@@ -12,7 +12,7 @@ public class Password : ValueObject
         Value = value;
     }
 
-    public string Value { get; }
+    public string Value { get; private set; }
 
     public static Result<Password> Create(string password)
     {
@@ -20,6 +20,11 @@ public class Password : ValueObject
             return Result.Failure<Password>($"Password must be between {MinLength} and {MaxLength} characters");
 
         return Result.Success(new Password(password));
+    }
+
+    public void SetHashedPassword(string hashedPassword)
+    {
+        Value = hashedPassword;
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
