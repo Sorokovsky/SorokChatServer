@@ -1,4 +1,5 @@
-﻿using SorokChatServer.Database;
+﻿using SorokChatServer.Core.Services;
+using SorokChatServer.Database;
 using SorokChatServer.Database.Repositories;
 using SorokChatServer.Infrastructure.Interfaces;
 using SorokChatServer.Infrastructure.Mapping;
@@ -16,5 +17,10 @@ public static class StartupExtensions
     public static void AddMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(UsersProfile));
+    }
+
+    public static void AddServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IFilesService, FilesService>();
     }
 }
