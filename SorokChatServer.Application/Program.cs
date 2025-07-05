@@ -1,8 +1,8 @@
 using SorokChatServer.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddSwagger();
 builder.Services.AddDatabase();
 builder.Services.AddServices();
 builder.Services.AddMapper();

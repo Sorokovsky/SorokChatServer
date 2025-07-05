@@ -14,7 +14,8 @@ public class FilesService : IFilesService
         if (Directory.Exists(_basePath) is false) Directory.CreateDirectory(_basePath);
     }
 
-    public async Task LoadAsync(IFormFile file, string folder, string fileName, CancellationToken cancellationToken)
+    public async Task<string> LoadAsync(IFormFile file, string folder, string fileName,
+        CancellationToken cancellationToken)
     {
         var extension = Path.GetExtension(file.FileName);
         var fullFileName = $"{fileName}.{extension}";
@@ -24,6 +25,7 @@ public class FilesService : IFilesService
 
         await using var fileStream = File.Open(path, FileMode.Create);
         await file.CopyToAsync(fileStream, cancellationToken);
+        return Path.Combine(folder, fullFileName);
     }
 
     public Task DeleteAsync(string path, CancellationToken cancellationToken)

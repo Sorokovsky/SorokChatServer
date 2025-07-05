@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SorokChatServer.Infrastructure.Interfaces;
 
 namespace SorokChatServer.Application.Controllers;
 
@@ -6,9 +7,19 @@ namespace SorokChatServer.Application.Controllers;
 [Route("[controller]")]
 public class FilesController : ControllerBase
 {
-    [HttpPost]
-    public async Task<IActionResult> Load(IFormFile file)
+    private readonly IFilesService _filesService;
+
+    public FilesController(IFilesService filesService)
     {
-        return await Task.FromResult(Ok());
+        _filesService = filesService;
+    }
+
+    [HttpPost("{folder}")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> Load([FromForm(Name = "file")] IFormFile file, [FromRoute] string folder,
+        CancellationToken cancellationToken)
+    {
+        var path = await _filesService.LoadAsync(file, folder, Path.GetFileName(file.FileName), cancellationToken);
+        return await Task.FromResult(Ok(path));
     }
 }
